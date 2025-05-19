@@ -1,0 +1,8 @@
+﻿  main.cpp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 18 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Project11.vcxproj -> C:\Users\chakh\source\repos\Project11\x64\Release\Project11.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.

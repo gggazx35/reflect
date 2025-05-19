@@ -1,0 +1,5 @@
+﻿  main.cpp
+C:\Users\chakh\source\repos\Project11\Project11\main.cpp(165,2): warning C4984: 'if constexpr' is a C++17 language extension
+  Project11.vcxproj -> C:\Users\chakh\source\repos\Project11\x64\Debug\Project11.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.
