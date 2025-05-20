@@ -1,6 +1,12 @@
-﻿  main.cpp
-C:\Users\chakh\source\repos\EventDriven\reflect\Project11\Project11\main.cpp(57,12): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
-C:\Users\chakh\source\repos\EventDriven\reflect\Project11\Project11\main.cpp(643,9): warning C4101: 'duration': unreferenced local variable
+﻿  DeriveTest.cpp
+  GarbageCollector.cpp
+C:\Users\chakh\source\repos\EventDriven\reflect\Project11\Project11\GarbageCollector.cpp(92,12): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+  main.cpp
+C:\Users\chakh\source\repos\EventDriven\reflect\Project11\Project11\main.cpp(635,9): warning C4101: 'duration': unreferenced local variable
+  ObjectReflector.cpp
+  Reflection.cpp
+  TestClass.cpp
+  Generating Code...
   Project11.vcxproj -> C:\Users\chakh\source\repos\EventDriven\reflect\Project11\x64\Debug\Project11.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

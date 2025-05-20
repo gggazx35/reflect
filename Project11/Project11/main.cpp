@@ -1,69 +1,73 @@
-#include "Reflection.h"
+#include "DeriveTest.h"
+
 #include <list>
 //#include "TestClass.h"
 #include <iostream>
 #include <time.h>
-#define MAX_OBJECT_SIZE 10000
-class GCObject;
-class GCPointer;
-
-
-enum class EGCState : unsigned char {
-	UNMARKED,
-	MARKED,
-	DEAD
-};
-
-class AllocObj {
-public:
-	EGCState state;
-	unsigned int size;
-};
-
-void* freeList[100] { };
-char* memoryHanlde = new char[MAX_OBJECT_SIZE];
-size_t allocatedMemory = 0;
-std::unordered_map<void*, void*> match;
-size_t memoryMatchIdx = 0;
-
-size_t currentKill = 0;
-
-#define ACTUAL_SIZEOF(size) (size + sizeof(AllocObj))
-#define GET_TAG(x) reinterpret_cast<AllocObj*>(((char*)x) - sizeof(AllocObj))
-#define GET_OBJ(x) reinterpret_cast<GCObject*>(((char*)x) + sizeof(AllocObj))
-
-void* Allocate(size_t size);
-
-
-unsigned char ObjectReflector::reflation[20][20] = {};
-int ObjectReflector::refl_index = 0;
-std::unordered_map<std::string, ObjectReflector*> TypeManager::objectReflections;
-
-class GarbageCollector {
-public:
-	static std::list<GCPointer*> refs;
-	static size_t allocatedSize;
-	static void mark();
-	static void sweep();
-	static void compact();
-	static void registerObject(GCObject* object);
-};
-
-void* Allocate(size_t size) {
-	if ((allocatedMemory + size) >= MAX_OBJECT_SIZE) {
-		GarbageCollector::mark();
-		GarbageCollector::sweep();
-	}
-	
-	auto v = reinterpret_cast<AllocObj*>(memoryHanlde + (allocatedMemory));
-	v->size = ACTUAL_SIZEOF(size);
-	v->state = EGCState::UNMARKED;
-#ifdef _DEBUG
-	std::cout << v << " " << v->size << '\n';
-#endif
-	allocatedMemory += ACTUAL_SIZEOF(size);
-	return reinterpret_cast<void*>(((char*)v) + sizeof(AllocObj));
-}
+////#define MAX_OBJECT_SIZE 12800
+////class GCObject;
+////class GCPointer;
+////
+////
+////enum class EGCState : unsigned char {
+////	UNMARKED,
+////	MARKED,
+////	DEAD
+////};
+////
+////class AllocObj {
+////public:
+////	EGCState state;
+////	unsigned int size;
+////	ObjectReflector* reflector;
+////};
+////
+////char* memoryHanlde = new char[MAX_OBJECT_SIZE];
+////size_t allocatedMemory = 0;
+////std::unordered_map<void*, void*> match;
+////size_t memoryMatchIdx = 0;
+////
+////size_t currentKill = 0;
+////
+////#define ACTUAL_SIZEOF(size) (size + sizeof(AllocObj))
+////#define GET_TAG(x) reinterpret_cast<AllocObj*>(((char*)x) - sizeof(AllocObj))
+////#define GET_OBJ(x) reinterpret_cast<void*>(((char*)x) + sizeof(AllocObj))
+////#define GET_REFLECTOR(x) GET_TAG(x)->reflector
+////void* Allocate(size_t size);
+////
+////////
+////////unsigned char ObjectReflector::reflation[20][20] = {};
+////////int ObjectReflector::refl_index = 0;
+////////std::unordered_map<std::string, ObjectReflector*> TypeManager::objectReflections;
+////
+////class GarbageCollector {
+////public:
+////	static std::list<GCPointer*> refs;
+////	static size_t allocatedSize;
+////	static void mark();
+////	static void markRef(void* _this);
+////	static void compactRef(void* _this);
+////	static void sweep();
+////	static void compact();
+////	static void registerObject(GCObject* object);
+////};
+////
+////void* Allocate(size_t size) {
+////	if ((allocatedMemory + size) >= MAX_OBJECT_SIZE) {
+////		GarbageCollector::mark();
+////		GarbageCollector::sweep();
+////		GarbageCollector::compact();
+////	}
+////	
+////	auto v = reinterpret_cast<AllocObj*>(memoryHanlde + (allocatedMemory));
+////	v->size = ACTUAL_SIZEOF(size);
+////	v->state = EGCState::UNMARKED;
+////#ifdef _DEBUG
+////	std::cout << v << " " << v->size << '\n';
+////#endif
+////	allocatedMemory += ACTUAL_SIZEOF(size);
+////	return reinterpret_cast<void*>(((char*)v) + sizeof(AllocObj));
+////}
 
 class GCObject {
 public:
@@ -73,44 +77,12 @@ public:
 		//GarbageCollector::registerObject(this);
 	}
 
-	void* operator new(size_t size) {
-		//GarbageCollector::allocatedSize += size;
-		return Allocate(size);
-	}
 
 	void operator delete(void* ptr) {
-		currentKill++;
 	}
 
 	void one() {
 		std::cout << "y cccccc";
-	}
-	void mark() {
-		GET_TAG(this)->state = EGCState::MARKED;
-		auto refs = getReflector();
-
-		match.insert(std::make_pair(this, nullptr));
-		for (auto ref : refs->pointers) {
-			auto val = *ref->As<GCObject*>(this);
-			if (val) {
-				val->mark();
-				if (match.count(val) == 0) 
-					match.insert(std::make_pair(val, nullptr));
-			}
-		}
-	}
-
-	void compact() {
-		auto refs = getReflector();
-		for (auto ref : refs->pointers) {
-			if (ref) {
-				auto ptr = match[*ref->As<void*>(this)];
-				*ref->As<void*>(this) = ptr;
-
-				if(ptr) reinterpret_cast<GCObject*>(ptr)->compact();
-			}
-		}
-		//std::cout << "*ref->As<void*>(this)" << '\n';
 	}
 public:
 
@@ -120,80 +92,107 @@ public:
 REFLECT_START(GCObject)
 REFLECT_END
 
-class GCPointer {
-public:
-	GCObject* ptr;
-};
-
-std::list<GCPointer*> GarbageCollector::refs;
-size_t GarbageCollector::allocatedSize;
-
-void GarbageCollector::mark() {
-	for (auto ref : refs) {
-		if(ref) ref->ptr->mark();
-	}
-}
-
-void GarbageCollector::sweep() {
-	char* buffer = new char[MAX_OBJECT_SIZE];
-	
-
-	size_t bufferSize = 0;
-	//auto it = objects.begin();
-	for (size_t i = 0; i < allocatedMemory;) {
-		auto obj = reinterpret_cast<AllocObj*>(memoryHanlde + i);
-		if (obj->state == EGCState::MARKED) {
-#ifdef _DEBUG 
-			std::cout << obj << " " << obj->size << " has alive\n";
-#endif
-			obj->state = EGCState::UNMARKED;
-			if(match.count(GET_OBJ(obj)))
-				match.at(GET_OBJ(obj)) = GET_OBJ(buffer + bufferSize);
-			memcpy(buffer + bufferSize, memoryHanlde + i, obj->size);
-			bufferSize += obj->size;
-
-		}
-		else {
-#ifdef _DEBUG 
-			std::cout << obj << " has been deleted now size is " << obj->size << '\n';
-#endif
-
-			delete GET_OBJ(obj);
-		}
-		i += obj->size;
-	}
-	allocatedMemory = bufferSize;
-	delete[] memoryHanlde;
-	memoryHanlde = buffer;
-
-	for (auto it = refs.begin(); it != refs.end(); it++) {
-		//*(it) = (GCObject*)match.at(*it);
-		(*it)->ptr = (GCObject*)match.at((*it)->ptr);
-	}
-
-	for (auto ref : refs) {
-		if(ref) ref->ptr->compact();
-	}
-
-	/*for (auto it = objects.begin(); it != objects.end();) {
-		auto ref = *it;
-		if (ref->state == EGCState::MARKED) {
-#ifdef _DEBUG 
-			std::cout << ref << " has alive\n";
-#endif
-			ref->state = EGCState::UNMARKED;
-			it++;
-		}
-		else {
-			allocatedSize--;
-#ifdef _DEBUG 
-			std::cout << ref << " has been deleted now size is " << allocatedSize << '\n';
-#endif
-			it = objects.erase(it);
-			ref->state = EGCState::DEAD;
-		}
-	}*/
-}
+////std::list<GCPointer*> GarbageCollector::refs;
+////size_t GarbageCollector::allocatedSize;
+////
+////void GarbageCollector::mark() {
+////	for (auto ref : refs) {
+////		if(ref->ptr) markRef(ref->ptr);
+////	}
+////}
+////
+////void GarbageCollector::markRef(void* _this) {
+////	GET_TAG(_this)->state = EGCState::MARKED;
+////	auto refs = GET_REFLECTOR(_this);
+////
+////	match.insert(std::make_pair(_this, nullptr));
+////	for (auto ref : refs->pointers) {
+////		auto val = *ref->As<void*>(_this);
+////		if (val) {
+////			markRef(val);
+////			if (match.count(val) == 0)
+////				match.insert(std::make_pair(val, nullptr));
+////		}
+////	}
+////}
+////
+////void GarbageCollector::compact() {
+////	for (auto ref : refs) {
+////		if (ref->ptr) compactRef(ref->ptr);
+////	}
+////}
+////
+////void GarbageCollector::compactRef(void* _this) {
+////	auto refs = GET_REFLECTOR(_this);
+////	for (auto ref : refs->pointers) {
+////		if (ref) {
+////			auto ptr = match[*ref->As<void*>(_this)];
+////			*ref->As<void*>(_this) = ptr;
+////
+////			if (ptr) compactRef(ptr);
+////		}
+////	}
+////	//std::cout << "*ref->As<void*>(this)" << '\n';
+////}
+////
+////void GarbageCollector::sweep() {
+////	char* buffer = new char[MAX_OBJECT_SIZE];
+////	
+////
+////	size_t bufferSize = 0;
+////	//auto it = objects.begin();
+////	for (size_t i = 0; i < allocatedMemory;) {
+////		auto obj = reinterpret_cast<AllocObj*>(memoryHanlde + i);
+////		if (obj->state == EGCState::MARKED) {
+////#ifdef _DEBUG 
+////			std::cout << obj << " " << obj->size << " is alive\n";
+////#endif
+////			obj->state = EGCState::UNMARKED;
+////			if(match.count(GET_OBJ(obj)))
+////				match.at(GET_OBJ(obj)) = GET_OBJ(buffer + bufferSize);
+////			memcpy(buffer + bufferSize, memoryHanlde + i, obj->size);
+////			bufferSize += obj->size;
+////
+////		}
+////		else {
+////#ifdef _DEBUG 
+////			std::cout << obj << " has been deleted now size is " << obj->size << '\n';
+////#endif
+////
+////			//delete GET_OBJ(obj);
+////		}
+////		i += obj->size;
+////	}
+////	allocatedMemory = bufferSize;
+////	delete[] memoryHanlde;
+////	memoryHanlde = buffer;
+////
+////	for (auto it = refs.begin(); it != refs.end(); it++) {
+////		//*(it) = (GCObject*)match.at(*it);
+////		(*it)->ptr = (void*)match.at((*it)->ptr);
+////	}
+////
+////	
+////
+////	/*for (auto it = objects.begin(); it != objects.end();) {
+////		auto ref = *it;
+////		if (ref->state == EGCState::MARKED) {
+////#ifdef _DEBUG 
+////			std::cout << ref << " has alive\n";
+////#endif
+////			ref->state = EGCState::UNMARKED;
+////			it++;
+////		}
+////		else {
+////			allocatedSize--;
+////#ifdef _DEBUG 
+////			std::cout << ref << " has been deleted now size is " << allocatedSize << '\n';
+////#endif
+////			it = objects.erase(it);
+////			ref->state = EGCState::DEAD;
+////		}
+////	}*/
+////}
 //
 //void GarbageCollector::compact() {
 //	char* buffer = new char[MAX_OBJECT_SIZE];
@@ -211,35 +210,21 @@ void GarbageCollector::sweep() {
 //	//delete memoryHandle;
 //	memoryHanlde = buffer;
 //}
+//
+//void GarbageCollector::registerObject(GCObject* object) {
+//	//allocatedSize++;
+//#ifdef _DEBUG 
+//	std::cout << object << " has been newed now size is " << GET_TAG(object)->size << '\n';
+//#endif
+//	if (allocatedSize >= MAX_OBJECT_SIZE) {
+//		mark();
+//		sweep();
+//	}
+//}
 
-void GarbageCollector::registerObject(GCObject* object) {
-	//allocatedSize++;
-#ifdef _DEBUG 
-	std::cout << object << " has been newed now size is " << GET_TAG(object)->size << '\n';
-#endif
-	if (allocatedSize >= MAX_OBJECT_SIZE) {
-		mark();
-		sweep();
-	}
-}
 
 
 
-template<typename T>
-class GCPtr : public GCPointer {
-public:
-	GCPtr<T>(T* _ptr) {
-		ptr = _ptr;
-		GarbageCollector::refs.push_back(this);
-	}
-
-	~GCPtr<T>() {
-		GarbageCollector::refs.remove(this);
-	}
-	T* operator->() {
-		return reinterpret_cast<T*>(ptr);
-	}
-};
 
 //#include <unordered_map>
 //
@@ -615,54 +600,58 @@ int main() {
 	//reflectMethod r(sans.convert(&poss::overrid));
 	//std::cout << "\n\ni have no" << r.parameters[1] << '\n';
 
-	poss* newPoss = new OK();
-	newPoss->truea = 20;
+	//poss* newPoss = new OK();
+	//newPoss->truea = 20;
 
-	//auto f = newPoss->getReflector();
-	std::cout << *TypeResolver<poss>::get()->properties["truea"]->As<int>(newPoss) << '\n';
-	//int off = *newPoss->getReflector()->properties["truea"]->As<int>(newPoss);
-	*TypeResolver<poss>::get()->properties["truea"]->As<int>(newPoss) = 200;
-	call<void>(TypeManager::objectReflections["poss"]->methods["overrid"], newPoss, 
-		20
-	);
+	////auto f = newPoss->getReflector();
+	//std::cout << *TypeResolver<poss>::get()->properties["truea"]->As<int>(newPoss) << '\n';
+	////int off = *newPoss->getReflector()->properties["truea"]->As<int>(newPoss);
+	//*TypeResolver<poss>::get()->properties["truea"]->As<int>(newPoss) = 200;
+	//call<void>(TypeManager::objectReflections["poss"]->methods["overrid"], newPoss, 
+	//	20
+	//);
 
-	std::cout << isCastable(newPoss, TypeManager::objectReflections["OKDobule"]) << '\n';
+	//std::cout << isCastable(newPoss, TypeManager::objectReflections["OKDobule"]) << '\n';
 
-	poss* nextLevel = new OKDobule();
-	std::cout << isCastable(nextLevel, TypeManager::objectReflections["OKDobule"]) << '\n';
+	//poss* nextLevel = new OKDobule();
+	//std::cout << isCastable(nextLevel, TypeManager::objectReflections["OKDobule"]) << '\n';
 
-	if (isCastable(nextLevel, TypeManager::objectReflections["OKDobule"])) {
-		auto z = cast<OKDobule>(nextLevel);
-		z->overrid(20);
-		auto f = TypeManager::objectReflections["OKDobule"]->methods["zep"];
-		call<void>(TypeManager::objectReflections["OKDobule"]->methods["zep"], z, 
-			*newPoss->getReflector()->properties["truea"]->As<int>(newPoss),
-			(OK*)nullptr);
-	}
+	//if (isCastable(nextLevel, TypeManager::objectReflections["OKDobule"])) {
+	//	auto z = cast<OKDobule>(nextLevel);
+	//	z->overrid(20);
+	//	auto f = TypeManager::objectReflections["OKDobule"]->methods["zep"];
+	//	call<void>(TypeManager::objectReflections["OKDobule"]->methods["zep"], z, 
+	//		*newPoss->getReflector()->properties["truea"]->As<int>(newPoss),
+	//		(OK*)nullptr);
+	//}
 
 	auto gco = GCPtr<GCObjectable>(new GCObjectable());
-	std::cout << "sizeof" << gco->getReflector()->size;
-
+	//std::cout << "sizeof" << gco->getReflector()->size;
+	std::cout << TypeResolver<Derive2Test>::get()->isAChildOf(TypeResolver<DeriveTest>::get()) << '\n';
+	std::cout << TypeResolver<DTest>::get()->isAChildOf(TypeResolver<TestClass>::get()) << '\n';
+	std::cout << TypeResolver<Derive2Test>::get()->isSame(TypeResolver<DeriveTest>::get()) << '\n';
+	std::cout << TypeResolver<DTest>::get()->isSuperOf(TypeResolver<TestClass>::get()) << '\n';
 	time_t start, finish;
 	double duration;
 
 	start = clock();
 
-	for (int i = 0; i < 100000000; i++) {
+	for (int i = 0; i < 1000; i++) {
 		gco->buddy = new GCObjectable();
 		gco->buddy = new GCObjectable();
 		gco->buddy2 = new GCObject();
 		//std::cout << "size is" << GET_TAG(gco->buddy)->size << "\n\n\n\n\n";
-		if (gco->getReflector()->isChildOf(gco->buddy2->getReflector())) {
+		if (GET_REFLECTOR(gco.ptr)->isChildOf(GET_REFLECTOR(gco->buddy2))) {
 			gco->dude = new GCObjectable();
 		}
 		
 	}
-
+	auto pro = GCPtr<TestClass>(new TestClass());
+	pro->truea = 20;
 	finish = clock();
 
 	//duration = (double)(finish - start);
-	std::cout << "\n\n-------------\n" << (finish - start) << "secs with " << currentKill << std::endl;
+	//std::cout << "\n\n-------------\n" << (finish - start) << "secs with " << currentKill << std::endl;
 
 	//poss::register_Reflect();
 
@@ -680,10 +669,10 @@ int main() {
 	std::cout << TypeResolver<poss>::get()->name << '\n';
 	std::cout << TypeResolver<OK>::get()->isChildOf(TypeResolver<poss>::get()) << '\n';
 	std::cout << TypeResolver<OK>::get()->isSuperOf(TypeResolver<poss>::get()) << '\n';
-	std::cout << TypeResolver<OK>::get()->isSame(TypeResolver<OK>::get()) << '\n';
+	std::cout << GET_TAG(gco.ptr)->reflector->name << '\n';
 
-	std::cout << "casted " << cast<poss>(newPoss) << '\n';
-	std::cout << "cast failed because the newPoss is not child of OkDobule " << cast<OKDobule>(newPoss) << '\n';
+	//std::cout << "casted " << cast<poss>(newPoss) << '\n';
+	//std::cout << "cast failed because the newPoss is not child of OkDobule " << cast<OKDobule>(newPoss) << '\n';
 
 	//r(newPoss);
 	//typeid(poss).hash_code();
@@ -694,7 +683,7 @@ int main() {
 		//self->one();
 
 
-	delete[] memoryHanlde;
+	//delete[] memoryHanlde;
 	//typedef int r;
 	return 0;
 }

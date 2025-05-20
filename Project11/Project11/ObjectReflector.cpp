@@ -1,46 +1,75 @@
 //#include "TypeManager.h"
 #include "ObjectReflector.h"
-
-
+#include <iostream>
+unsigned char ObjectReflector::reflation[20][20] = {0};
+int ObjectReflector::refl_index = 0;
 //class TypeManager;
-
-ObjectReflector::ObjectReflector(void (*init)(ObjectReflector*))
-{
-	 init(this);
-	 //registerObject(name, this);
-	 TypeManager::objectReflections.insert(std::make_pair(name, this));
-	 N = refl_index++;
-	 reflation[N][N] = (EMatch::kSame);
-
-	 super = nullptr;
-	 /*methods = {
-		 { "", new reflectMethod(&reflectMethod::match) }
-	 };*/
-}
+//
+//ObjectReflector::ObjectReflector(void (*init)(ObjectReflector*))
+//{
+//	
+//
+//	 init(this);
+//	 //registerObject(name, this);
+//	 TypeManager::get()->objectReflections.emplace(std::make_pair(name, this));
+//	 N = refl_index++;
+//	 reflation[N][N] = (EMatch::kSame);
+//
+//	 super = nullptr;
+//
+//	 if (TypeManager::get()->requirements.count(this)) {
+//		 auto val = TypeManager::get()->requirements.at(this);
+//		 markClassTree(val);
+//	 }
+//}
 
 ObjectReflector::ObjectReflector(void (*init)(ObjectReflector*), ObjectReflector* _super) {
-	methods = _super->methods;
-	properties = _super->properties;
-
-
+	if(_super) TypeManager::get()->requirements[_super].push_back(this);
 	init(this);
 	super = _super;
 	N = refl_index++;
-
-	reflation[N][super->N] = (EMatch::kChildOf | EMatch::kIsAChildOf);
-	reflation[N][N] = EMatch::kSame;
-
-	reflation[super->N][N] = (EMatch::kSuperOf | EMatch::kIsASuperOf);
-	auto curr = super->super;
-	while (curr != nullptr) {
-		reflation[N][curr->N] = EMatch::kIsAChildOf;
-		reflation[curr->N][N] = EMatch::kIsASuperOf;
-		curr = curr->super;
+	
+	if (TypeManager::get()->requirements.count(this)) {
+		std::cout << name << '\n';
+		auto val = TypeManager::get()->requirements.at(this);
+		markClassTree();
 	}
-	TypeManager::objectReflections.insert(std::make_pair(name, this));
-	//registerObject(name, this);
-	/*methods = {
-		{ "", new reflectMethod(&reflectMethod::match) }
-	};*/
+
+	reflation[N][N] = EMatch::kSame;
+	TypeManager::get()->objectReflections.emplace(std::make_pair(name, this));
+	
+}
+
+void ObjectReflector::markClassTree()
+{
+	auto nval = TypeManager::get()->requirements.at(this);
+	for (auto val : nval) {
+		std::cout << val->name << '\n';
+		val->methods.insert(methods.begin(), methods.end());
+
+		//val->methods = _super->methods;
+		val->properties.insert(properties.begin(), properties.end());
+		//pointers.assign(_super->pointers.begin(), _super->pointers.end());
+		reflation[val->N][N] = (EMatch::kChildOf | EMatch::kIsAChildOf);
+
+		reflation[N][val->N] = (EMatch::kSuperOf | EMatch::kIsASuperOf);
+
+
+		auto curr = super;
+		while (curr != nullptr) {
+			reflation[val->N][curr->N] = EMatch::kIsAChildOf;
+			reflation[curr->N][val->N] = EMatch::kIsASuperOf;
+			curr = curr->super;
+		}
+
+		//auto curr = super->super;
+		if (TypeManager::get()->requirements.count(val)) {
+			val->markClassTree();
+		}
+	}
+}
+
+void ObjectReflector::implementsInterface(ObjectReflector* _interface)
+{
 }
 

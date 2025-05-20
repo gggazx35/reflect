@@ -20,6 +20,7 @@ enum EMatch : unsigned char {
 class ObjectReflector {
 	size_t hash;
 	ObjectReflector* super;
+	//std::vector<ObjectReflector*> interfaces;
 public:
 	std::unordered_map<std::string, MethodReflector*> methods;
 	std::unordered_map<std::string, PropertyReflector*> properties;
@@ -28,17 +29,16 @@ public:
 
 	unsigned int size;
 	unsigned int N;
-
-
-	static unsigned char reflation[20][20];
-	static int refl_index;
 	///*template<typename Tx>
 	//reflectObject(Tx x) {
 	//	hash = typeid(Tx).hash_code();
 	//}*/
 
-	ObjectReflector(void (*init)(ObjectReflector*));
-	ObjectReflector(void (*init)(ObjectReflector*), ObjectReflector* _super);
+	static unsigned char reflation[20][20];
+	static int refl_index;
+
+	//ObjectReflector(void (*init)(ObjectReflector*));
+	ObjectReflector(void (*init)(ObjectReflector*), ObjectReflector* _super=nullptr);
 
 
 	/*static void registerObject(std::string name, ObjectReflector* refl) {
@@ -88,6 +88,9 @@ public:
 	inline bool isASuperOf(ObjectReflector* _other) const {
 		return reflation[N][_other->N] & (EMatch::kIsASuperOf);
 	} 
+
+	void markClassTree();
+	void implementsInterface(ObjectReflector* _interface);
 	/*template<typename T>
 	void registerProperty(std::string str, T method) {
 		rep<T> func;
@@ -96,6 +99,17 @@ public:
 };
 
 class TypeManager {
+private:
+	TypeManager() {}
+	TypeManager(const TypeManager& ref) {}
+	TypeManager& operator=(const TypeManager& ref) {}
+	~TypeManager() {}
 public:
-	static std::unordered_map<std::string, class ObjectReflector*> objectReflections;
+	
+	std::unordered_map<std::string, ObjectReflector*> objectReflections;
+	std::unordered_map<ObjectReflector*, std::list<ObjectReflector*>> requirements;
+	static TypeManager* get() {
+		static TypeManager instance;
+		return &instance;
+	}
 };

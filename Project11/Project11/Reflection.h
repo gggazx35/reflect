@@ -1,23 +1,24 @@
 #pragma once
 #include "TypeResolver.h"
-
+#include "GarbageCollector.h"
+#define __REFLECTION_START(type) \
+void* type::operator new(size_t size) { \
+	void* obj = reinterpret_cast<type*>(GarbageCollector::get()->Allocate(size)); \
+	GET_TAG(obj)->reflector = &type::reflect; \
+	return obj; \
+} \
+void type::initTypeDescriptor(ObjectReflector* _desc) { \
+using T = type; \
+_desc->name = #type; \
+_desc->size = sizeof(T);
 
 #define REFLECT_START_SUPER(type) \
 ObjectReflector type::reflect { &type::initTypeDescriptor, TypeResolver<type::super>::get() }; \
-ObjectReflector* type::getReflector() { return &reflect; } \
-void type::initTypeDescriptor(ObjectReflector* _desc) { \
-using T = type; \
-_desc->name = #type; \
-_desc->size = sizeof(T);
+__REFLECTION_START(type)
 
 #define REFLECT_START(type) \
 ObjectReflector type::reflect { &type::initTypeDescriptor }; \
-ObjectReflector* type::getReflector() { return &type::reflect; } \
-void type::initTypeDescriptor(ObjectReflector* _desc) { \
-using T = type; \
-_desc->name = #type; \
-_desc->size = sizeof(T);
-
+__REFLECTION_START(type)
 
 //static void register_Reflect() { auto obj = new reflectObject(); TypeManager::registerObject(#type, obj);
 #define REFLECT_METHOD(method) _desc->registerMethod(#method, &T::method);
@@ -27,5 +28,9 @@ _desc->size = sizeof(T);
 #define REFLECT  \
 static void initTypeDescriptor(ObjectReflector* obj); \
 static ObjectReflector reflect; \
-virtual ObjectReflector* getReflector(); 
+void* operator new(size_t size);
 
+#define REFLECT_INTERFACE  \
+static void initTypeDescriptor(ObjectReflector* obj); \
+static ObjectReflector reflect; \
+void* operator new(size_t size) = delete;

@@ -128,6 +128,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DeriveTest.cpp" />
+    <ClCompile Include="GarbageCollector.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MethodReflector.cpp" />
     <ClCompile Include="ObjectReflector.cpp" />
@@ -136,6 +138,8 @@
     <ClCompile Include="TestClass.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DeriveTest.h" />
+    <ClInclude Include="GarbageCollector.h" />
     <ClInclude Include="MethodReflector.h" />
     <ClInclude Include="ObjectReflector.h" />
     <ClInclude Include="PropertyReflector.h" />

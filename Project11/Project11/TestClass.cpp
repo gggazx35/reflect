@@ -1,5 +1,9 @@
 #include "TestClass.h"
 
+REFLECT_START(TestClass)
+REFLECT_METHOD(overrid)
+REFLECT_FUNCTION(New)
+REFLECT_END
 
 
 void TestClass::overrid(int a)

@@ -12,7 +12,6 @@ public:
 	}
 private:
 	virtual void overrid(int a);
-	static void ugh();
 
 public:
 	TestClass() {}
@@ -20,7 +19,3 @@ public:
 
 	REFLECT
 };
-REFLECT_START(TestClass)
-	REFLECT_METHOD(overrid)
-	REFLECT_FUNCTION(New)
-REFLECT_END
