@@ -20,6 +20,9 @@ ObjectReflector::ObjectReflector(void (*init)(ObjectReflector*))
 
 ObjectReflector::ObjectReflector(void (*init)(ObjectReflector*), ObjectReflector* _super) {
 	methods = _super->methods;
+	properties = _super->properties;
+
+
 	init(this);
 	super = _super;
 	N = refl_index++;
@@ -40,3 +43,4 @@ ObjectReflector::ObjectReflector(void (*init)(ObjectReflector*), ObjectReflector
 		{ "", new reflectMethod(&reflectMethod::match) }
 	};*/
 }
+

@@ -131,12 +131,16 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MethodReflector.cpp" />
     <ClCompile Include="ObjectReflector.cpp" />
+    <ClCompile Include="PropertyReflector.cpp" />
     <ClCompile Include="Reflection.cpp" />
+    <ClCompile Include="TestClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MethodReflector.h" />
     <ClInclude Include="ObjectReflector.h" />
+    <ClInclude Include="PropertyReflector.h" />
     <ClInclude Include="Reflection.h" />
+    <ClInclude Include="TestClass.h" />
     <ClInclude Include="TypeResolver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

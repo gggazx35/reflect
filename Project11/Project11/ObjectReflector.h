@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <tuple>
 #include "MethodReflector.h"
+#include "PropertyReflector.h"
 
 #define BIT(x) (1 << x)
 
@@ -21,6 +22,7 @@ class ObjectReflector {
 	ObjectReflector* super;
 public:
 	std::unordered_map<std::string, MethodReflector*> methods;
+	std::unordered_map<std::string, PropertyReflector*> properties;
 	std::string name;
 
 	unsigned int size;
@@ -53,6 +55,11 @@ public:
 		methods.insert(std::make_pair(str, method));
 	}
 
+	template<typename T>
+	void registerProperty(std::string str, T prop) {
+		properties.insert(std::make_pair(str, prop));
+	}
+
 	inline bool isA(ObjectReflector* _parent) const {
 		return reflation[N][_parent->N] & (EMatch::kIsAChildOf | EMatch::kIsASuperOf | EMatch::kSame);
 	}
@@ -75,7 +82,7 @@ public:
 
 	inline bool isASuperOf(ObjectReflector* _other) const {
 		return reflation[N][_other->N] & (EMatch::kIsASuperOf);
-	}
+	} 
 	/*template<typename T>
 	void registerProperty(std::string str, T method) {
 		rep<T> func;

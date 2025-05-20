@@ -1,9 +1,11 @@
 #include "Reflection.h"
+//#include "TestClass.h"
 #include <iostream>
 
 unsigned char ObjectReflector::reflation[20][20] = {};
 int ObjectReflector::refl_index = 0;
 std::unordered_map<std::string, ObjectReflector*> TypeManager::objectReflections;
+
 
 //#include <unordered_map>
 //
@@ -292,6 +294,7 @@ public:
 REFLECT_START(poss)
 	REFLECT_METHOD(overrid)
 	REFLECT_FUNCTION(New)
+	REFLECT_PROPERTY(truea)
 REFLECT_END
 
 class OK : public poss {
@@ -362,8 +365,16 @@ int main() {
 	//std::cout << "\n\ni have no" << r.parameters[1] << '\n';
 
 	poss* newPoss = new OK();
-	
-	call<void>(TypeManager::objectReflections["poss"]->methods["overrid"], newPoss, 20);
+	newPoss->truea = 20;
+
+	//auto f = newPoss->getReflector();
+	std::cout << *TypeResolver<poss>::get()->properties["truea"]->As<int>(newPoss) << '\n';
+	//int off = *newPoss->getReflector()->properties["truea"]->As<int>(newPoss);
+	*TypeResolver<poss>::get()->properties["truea"]->As<int>(newPoss) = 200;
+	call<void>(TypeManager::objectReflections["poss"]->methods["overrid"], newPoss, 
+		20
+	);
+
 	std::cout << isCastable(newPoss, TypeManager::objectReflections["OKDobule"]) << '\n';
 
 	poss* nextLevel = new OKDobule();
@@ -373,7 +384,9 @@ int main() {
 		auto z = cast<OKDobule>(nextLevel);
 		z->overrid(20);
 		auto f = TypeManager::objectReflections["OKDobule"]->methods["zep"];
-		call<void>(TypeManager::objectReflections["OKDobule"]->methods["zep"], z, 300, (OK*)nullptr);
+		call<void>(TypeManager::objectReflections["OKDobule"]->methods["zep"], z, 
+			*newPoss->getReflector()->properties["truea"]->As<int>(newPoss),
+			(OK*)nullptr);
 	}
 
 	//poss::register_Reflect();
@@ -389,10 +402,14 @@ int main() {
 		call<void>(TypeManager::objectReflections["OKDobule"]->methods["zep"], z, 300, (OK*)nullptr);
 	}*/
 	
-	//std::cout << TypeResolver<poss>::get()->name << '\n';
-	//std::cout << TypeResolver<OK>::get()->isChildOf(TypeResolver<poss>::get()) << '\n';
-	//std::cout << TypeResolver<OK>::get()->isSuperOf(TypeResolver<poss>::get()) << '\n';
-	//std::cout << TypeResolver<OK>::get()->isSame(TypeResolver<OK>::get()) << '\n';
+	std::cout << TypeResolver<poss>::get()->name << '\n';
+	std::cout << TypeResolver<OK>::get()->isChildOf(TypeResolver<poss>::get()) << '\n';
+	std::cout << TypeResolver<OK>::get()->isSuperOf(TypeResolver<poss>::get()) << '\n';
+	std::cout << TypeResolver<OK>::get()->isSame(TypeResolver<OK>::get()) << '\n';
+
+	std::cout << "casted " << cast<poss>(newPoss) << '\n';
+	std::cout << "cast failed because the newPoss is not child of OkDobule " << cast<OKDobule>(newPoss) << '\n';
+
 	//r(newPoss);
 	//typeid(poss).hash_code();
 	//call<void>(r, newPoss);
@@ -400,6 +417,8 @@ int main() {
 	//auto e = new poss;
 	//int (*thig)(poss*, int io2) = [](poss* self, int io2) {
 		//self->one();
+
+
 
 	//typedef int r;
 	return 0;
