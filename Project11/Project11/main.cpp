@@ -42,6 +42,35 @@ struct rep<R(T::*)(TARGS...)> {
 
 // practice (expression)... = repeat expression
 
+class reflectProperty {
+
+};
+class reflectObject;
+struct TypeManager {
+	static std::unordered_map<std::string, reflectObject*> objectReflections;
+	/*static char** map;
+
+	static void mapp() {
+		const auto size = objectReflections.size();
+
+		map = new char*[size];
+		for (int i = 0; i < size; ++i) {
+			auto v = new char[size];
+			int j = 0;
+
+			for (auto& item : objectReflections) {
+				v[j] = item.second->isChildOf();
+				j++;
+			}
+
+		}
+	}*/
+	static void registerObject(std::string name, reflectObject* refl) {
+		objectReflections.insert(std::make_pair(name, refl));
+	}
+};
+std::unordered_map<std::string, reflectObject*> TypeManager::objectReflections;
+
 class reflectMethod {
 public:
 	void* ptr;
@@ -66,19 +95,26 @@ public:
 	}
 };
 
-class reflectProperty {
-
-};
-
 class reflectObject {
 	size_t hash;
 	size_t super;
 public:
 	std::unordered_map<std::string, reflectMethod*> methods;
+	unsigned int size;
+	std::string name;
 	///*template<typename Tx>
 	//reflectObject(Tx x) {
 	//	hash = typeid(Tx).hash_code();
 	//}*/
+
+	reflectObject(void (*init)(reflectObject*)) {
+		init(this);
+		TypeManager::registerObject(name, this);
+		/*methods = {
+			{ "", new reflectMethod(&reflectMethod::match) }
+		};*/
+	}
+
 	template<typename T>
 	void init() {
 		hash = typeid(T).hash_code();
@@ -107,38 +143,55 @@ public:
 	}*/
 };
 
-struct TypeManager {
-	static std::unordered_map<std::string, reflectObject*> objectReflections;
-	static char** map;
 
-	static void mapp() {
-		const auto size = objectReflections.size();
-		
-		map = new char*[size];
-		for (int i = 0; i < size; ++i) {
-			auto v = new char[size];
-			int j = 0;
+//bool** map = nullptr;
 
-			for (auto& item : objectReflections) {
-				v[j] = item.second->isChildOf();
-				j++;
-			}
+struct DefaultResolver
+{
+	template <typename T> static char func(decltype(&T::Reflection));
+	template <typename T> static int func(...);
+	template <typename T>
+	struct IsReflected
+	{
+		enum { value = (sizeof(func<T>(nullptr)) == sizeof(char)) };
+	};
 
-		}
+	// This version is called if T has a static member named "Reflection":
+	template <typename T, typename std::enable_if<IsReflected<T>::value, int>::type = 0>
+	static reflectObject* get()
+	{
+		return &T::reflect;
 	}
-	static void registerObject(std::string name, reflectObject* refl) {
-		objectReflections.insert(std::make_pair(name, refl));
+
+	// This version is called otherwise:
+	template <typename T, typename std::enable_if<!IsReflected<T>::value, int>::type = 0>
+	static reflectObject* get()
+	{
+		return getPrimitiveDescriptor<T>();
 	}
 };
-std::unordered_map<std::string, reflectObject*> TypeManager::objectReflections;
-bool** map = nullptr;
 
-#define REFLECT_START(type) typedef type re_t; static void register_Reflect() { auto obj = new reflectObject(); obj->init<type>(); TypeManager::registerObject(#type, obj);
-#define REFLECT_METHOD(method) obj->registerMethod(#method, &re_t::method);
-#define REFLECT_FUNCTION(func) obj->registerFunction(#func, new reflectMethod(&re_t::func));
+struct TypeResolver {
+};
+
+
+
+
+#define REFLECT_START(type) \
+reflectObject type::reflect { &type::initTypeDescriptor }; \
+void type::initTypeDescriptor(reflectObject* _desc) { \
+using T = type; \
+_desc->name = #type; \
+_desc->size = sizeof(T);
+ 
+
+//static void register_Reflect() { auto obj = new reflectObject(); TypeManager::registerObject(#type, obj);
+#define REFLECT_METHOD(method) _desc->registerMethod(#method, &T::method);
+#define REFLECT_FUNCTION(func) _desc->registerFunction(#func, new reflectMethod(&T::func));
 #define REFLECT_END }
-
-
+#define REFLECT  \
+static void initTypeDescriptor(reflectObject* obj); \
+static reflectObject reflect; 
 
 class poss {
 public:
@@ -154,17 +207,24 @@ private:
 	static void ugh();
 
 public:
-	poss(int a) {}
+	poss() {}
 	static poss* New() {
-		auto a = (new (poss)(20));
-		return new poss(20);
+		auto a = (new (poss)());
+		return new poss();
 	}
 
-	REFLECT_START(poss)
+	REFLECT
+	/*REFLECT_START(poss)
 		REFLECT_METHOD(overrid)
 		REFLECT_FUNCTION(New)
-	REFLECT_END
+	REFLECT_END*/
 };
+//reflectObject poss::reflect { &poss::initTypeDescriptor }
+REFLECT_START(poss)
+	REFLECT_METHOD(overrid)
+	REFLECT_FUNCTION(New)
+REFLECT_END
+
 
 template<size_t g>
 struct TypeID {
