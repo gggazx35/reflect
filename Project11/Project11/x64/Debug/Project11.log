@@ -1,4 +1,6 @@
 ﻿  main.cpp
-  Project11.vcxproj -> C:\Users\User\Documents\GitHub\reflect\Project11\x64\Debug\Project11.exe
-  'pwsh.exe'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는
-  배치 파일이 아닙니다.
+C:\Users\chakh\source\repos\EventDriven\reflect\Project11\Project11\main.cpp(57,12): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\chakh\source\repos\EventDriven\reflect\Project11\Project11\main.cpp(643,9): warning C4101: 'duration': unreferenced local variable
+  Project11.vcxproj -> C:\Users\chakh\source\repos\EventDriven\reflect\Project11\x64\Debug\Project11.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.

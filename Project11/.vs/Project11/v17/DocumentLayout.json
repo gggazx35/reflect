@@ -1,10 +1,25 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\chakh\\source\\repos\\Project11\\",
+  "WorkspaceRootPath": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\Project11\\Project11\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\PropertyReflector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\PropertyReflector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\ObjectReflector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\ObjectReflector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\Reflection.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\Reflection.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\PROGRAM FILES\\MICROSOFT VISUAL STUDIO\\2022\\COMMUNITY\\VC\\TOOLS\\MSVC\\14.38.33130\\INCLUDE\\LIST||{3B902123-F8A7-4915-9F01-361F908088D0}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,17 +29,69 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "list",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\list",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\list",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\list",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\list",
+              "ViewState": "AQIAAJQAAAAAAAAAAAAcwKAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-05-20T13:48:03.798Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Reflection.h",
+              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\Reflection.h",
+              "RelativeDocumentMoniker": "Project11\\Reflection.h",
+              "ToolTip": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\Reflection.h",
+              "RelativeToolTip": "Project11\\Reflection.h",
+              "ViewState": "AQIAAA8AAAAAAAAAAADwvxgAAABAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-05-20T12:53:25.53Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ObjectReflector.h",
+              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\ObjectReflector.h",
+              "RelativeDocumentMoniker": "Project11\\ObjectReflector.h",
+              "ToolTip": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\ObjectReflector.h",
+              "RelativeToolTip": "Project11\\ObjectReflector.h",
+              "ViewState": "AQIAADAAAAAAAAAAAADwv0AAAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-05-20T12:19:55.032Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PropertyReflector.h",
+              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\PropertyReflector.h",
+              "RelativeDocumentMoniker": "Project11\\PropertyReflector.h",
+              "ToolTip": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\PropertyReflector.h",
+              "RelativeToolTip": "Project11\\PropertyReflector.h",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-05-20T12:19:51.585Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "main.cpp",
-              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\Project11\\Project11\\main.cpp",
+              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\main.cpp",
               "RelativeDocumentMoniker": "Project11\\main.cpp",
-              "ToolTip": "C:\\Users\\chakh\\source\\repos\\Project11\\Project11\\main.cpp",
+              "ToolTip": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\main.cpp",
               "RelativeToolTip": "Project11\\main.cpp",
-              "ViewState": "AQIAAGYAAAAAAAAAAAAUwH0AAAAAAAAA",
+              "ViewState": "AQIAAIsCAAAAAAAAAAAowJgCAABWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-05-19T10:03:45.792Z",
               "EditorCaption": ""

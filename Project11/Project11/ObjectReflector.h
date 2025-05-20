@@ -23,6 +23,7 @@ class ObjectReflector {
 public:
 	std::unordered_map<std::string, MethodReflector*> methods;
 	std::unordered_map<std::string, PropertyReflector*> properties;
+	std::list<PropertyReflector*> pointers;
 	std::string name;
 
 	unsigned int size;
@@ -56,7 +57,11 @@ public:
 	}
 
 	template<typename T>
-	void registerProperty(std::string str, T prop) {
+	void registerProperty(std::string str, int offset) {
+		auto prop = new PropertyReflector(offset);
+		if constexpr (std::is_pointer_v<T> == true) {
+			pointers.push_back(prop);
+		}
 		properties.insert(std::make_pair(str, prop));
 	}
 
