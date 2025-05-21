@@ -81,7 +81,10 @@ void GarbageCollector::sweep() {
 
 }
 
-void* GarbageCollector::Allocate(size_t size) {
+void* GarbageCollector::Allocate(size_t _size) {
+	int size = _size;
+	if (size < DEFAULT_PADDING) size = DEFAULT_PADDING;
+
 	if ((allocatedMemory + size) >= MAX_OBJECT_SIZE) {
 		mark();
 		sweep();

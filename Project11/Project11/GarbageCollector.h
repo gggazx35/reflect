@@ -1,7 +1,8 @@
 #pragma once
 #include "ObjectReflector.h"
 #define MAX_OBJECT_SIZE 12800
-
+#define GC_OBJECT_SIZE (MAX_OBJECT_SIZE - 800)
+#define DEFAULT_PADDING 8
 
 enum class EGCState : unsigned char {
 	UNMARKED,

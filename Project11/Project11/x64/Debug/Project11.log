@@ -1,12 +1,5 @@
-﻿  DeriveTest.cpp
-  GarbageCollector.cpp
-C:\Users\chakh\source\repos\EventDriven\reflect\Project11\Project11\GarbageCollector.cpp(92,12): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
-  main.cpp
-C:\Users\chakh\source\repos\EventDriven\reflect\Project11\Project11\main.cpp(635,9): warning C4101: 'duration': unreferenced local variable
-  ObjectReflector.cpp
-  Reflection.cpp
-  TestClass.cpp
-  Generating Code...
-  Project11.vcxproj -> C:\Users\chakh\source\repos\EventDriven\reflect\Project11\x64\Debug\Project11.exe
-  'pwsh.exe' is not recognized as an internal or external command,
-  operable program or batch file.
+﻿  main.cpp
+C:\Users\User\Documents\GitHub\reflect\Project11\Project11\main.cpp(640,9): warning C4101: 'duration' :참조되지 않은 지역 변수입니다.
+  Project11.vcxproj -> C:\Users\User\Documents\GitHub\reflect\Project11\x64\Debug\Project11.exe
+  'pwsh.exe'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는
+  배치 파일이 아닙니다.

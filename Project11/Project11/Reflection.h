@@ -16,6 +16,10 @@ _desc->size = sizeof(T);
 ObjectReflector type::reflect { &type::initTypeDescriptor, TypeResolver<type::super>::get() }; \
 __REFLECTION_START(type)
 
+#define REFLECT_START_SUPER_MULTI(type, ...) \
+ObjectReflector type::reflect { &type::initTypeDescriptor, TypeResolver<type::super>::get(), __VA_ARGS__ }; \
+__REFLECTION_START(type)
+
 #define REFLECT_START(type) \
 ObjectReflector type::reflect { &type::initTypeDescriptor }; \
 __REFLECTION_START(type)

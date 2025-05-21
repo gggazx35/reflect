@@ -47,7 +47,7 @@ public:
 			for (auto item : interfaces) {
 				TypeManager::get()->requirements[item].push_back(this);
 			}
-			super = interfaces[0];
+			//super = interfaces[0];
 		}
 		
 		init(this);
@@ -56,7 +56,6 @@ public:
 
 		if (TypeManager::get()->requirements.count(this)) {
 			std::cout << name << '\n';
-			auto val = TypeManager::get()->requirements.at(this);
 			markClassTree();
 		}
 
@@ -114,6 +113,7 @@ public:
 	} 
 
 	void markClassTree();
+	void markIsATree(ObjectReflector* _);
 	void implementsInterface(ObjectReflector* _interface);
 	/*template<typename T>
 	void registerProperty(std::string str, T method) {

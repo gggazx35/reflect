@@ -72,14 +72,11 @@
 class GCObject {
 public:
 	using super = void;
-
+	//long long any;
 	GCObject() {
 		//GarbageCollector::registerObject(this);
 	}
 
-
-	void operator delete(void* ptr) {
-	}
 
 	void one() {
 		std::cout << "y cccccc";
@@ -627,10 +624,18 @@ int main() {
 
 	auto gco = GCPtr<GCObjectable>(new GCObjectable());
 	//std::cout << "sizeof" << gco->getReflector()->size;
-	std::cout << TypeResolver<Derive2Test>::get()->isAChildOf(TypeResolver<DeriveTest>::get()) << '\n';
+	std::cout << TypeResolver<Derive2Test>::get()->isASuperOf(TypeResolver<DeriveTest>::get()) << '\n';
 	std::cout << TypeResolver<DTest>::get()->isAChildOf(TypeResolver<TestClass>::get()) << '\n';
+	std::cout << TypeResolver<Derive2Test>::get()->isAChildOf(TypeResolver<DeriveTest>::get()) << '\n';
+	std::cout << TypeResolver<TTest>::get()->isAChildOf(TypeResolver<TestClass>::get()) << '\n';
+
+
+
 	std::cout << TypeResolver<Derive2Test>::get()->isSame(TypeResolver<DeriveTest>::get()) << '\n';
-	std::cout << TypeResolver<DTest>::get()->isSuperOf(TypeResolver<TestClass>::get()) << '\n';
+	std::cout << TypeResolver<DTest>::get()->isChildOf(TypeResolver<DeriveTest>::get()) << '\n';
+	std::cout << TypeResolver<Derive2Test>::get()->isSuperOf(TypeResolver<DeriveTest>::get()) << '\n';
+	std::cout << TypeResolver<TTest>::get()->isAChildOf(TypeResolver<TestClass>::get()) << '\n';
+
 	time_t start, finish;
 	double duration;
 

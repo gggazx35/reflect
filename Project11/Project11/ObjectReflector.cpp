@@ -44,7 +44,7 @@ void ObjectReflector::markClassTree()
 {
 	auto nval = TypeManager::get()->requirements.at(this);
 	for (auto val : nval) {
-		std::cout << val->name << '\n';
+		std::cout << val->name << " : " << name << '\n';
 		val->methods.insert(methods.begin(), methods.end());
 
 		//val->methods = _super->methods;
@@ -54,18 +54,27 @@ void ObjectReflector::markClassTree()
 
 		reflation[N][val->N] = (EMatch::kSuperOf | EMatch::kIsASuperOf);
 
-
-		auto curr = super;
-		while (curr != nullptr) {
-			reflation[val->N][curr->N] = EMatch::kIsAChildOf;
-			reflation[curr->N][val->N] = EMatch::kIsASuperOf;
-			curr = curr->super;
-		}
+		val->markIsATree(val);
 
 		//auto curr = super->super;
 		if (TypeManager::get()->requirements.count(val)) {
 			val->markClassTree();
 		}
+	}
+}
+
+void ObjectReflector::markIsATree(ObjectReflector* _)
+{
+	for (auto curr : interfaces) { // curr = super
+		//auto curr = item;
+		//while (curr != nullptr) {
+		if(reflation[_->N][curr->N] == 0) reflation[_->N][curr->N] = EMatch::kIsAChildOf;
+		if(reflation[curr->N][_->N] == 0) reflation[curr->N][_->N] = EMatch::kIsASuperOf;
+
+			std::cout << _->name << " is child of " << curr->name << '\n';
+		//}
+		curr->markIsATree(_);
+		//}
 	}
 }
 

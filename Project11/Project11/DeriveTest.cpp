@@ -1,6 +1,9 @@
 #include "TestClass.h"
 #include "DeriveTest.h"
 
+REFLECT_START(IImp)
+REFLECT_END
+
 REFLECT_START_SUPER(DeriveTest)
 REFLECT_END
 
@@ -10,7 +13,7 @@ REFLECT_END
 REFLECT_START_SUPER(DTest)
 REFLECT_END
 
-REFLECT_START_SUPER(TTest)
+REFLECT_START_SUPER_MULTI(TTest, TypeResolver<IImp>::get())
 REFLECT_END
 
 

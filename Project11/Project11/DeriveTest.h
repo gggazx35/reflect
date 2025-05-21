@@ -1,6 +1,12 @@
 #pragma once
 #include "TestClass.h"
 
+class IImp {
+	using super = void;
+public:
+	REFLECT
+};
+
 class DeriveTest : public TestClass
 {
 	using super = TestClass;
@@ -25,17 +31,10 @@ public:
 	REFLECT
 };
 
-class TTest : public TestClass
+class TTest : public DeriveTest, public IImp
 {
-	using super = TestClass;
+	using super = DeriveTest;
 	void overrid(int a) override;
 public:
 	REFLECT
-};
-
-class ITest
-{
-	using super = void;
-public:
-	REFLECT_INTERFACE
 };
