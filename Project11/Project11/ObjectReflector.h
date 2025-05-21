@@ -43,11 +43,11 @@ public:
 	ObjectReflector(void (*init)(ObjectReflector*), TARGS*... _super) {
 		super = nullptr;
 		if constexpr (sizeof...(TARGS) >= 0) {
-			interfaces = { _super };
+			interfaces = { _super... };
 			for (auto item : interfaces) {
 				TypeManager::get()->requirements[item].push_back(this);
 			}
-			//super = interfaces[0];
+			super = interfaces[0];
 		}
 		
 		init(this);
