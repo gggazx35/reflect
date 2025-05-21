@@ -1,6 +1,6 @@
 //#include "TypeManager.h"
 #include "ObjectReflector.h"
-#include <iostream>
+
 unsigned char ObjectReflector::reflation[20][20] = {0};
 int ObjectReflector::refl_index = 0;
 //class TypeManager;
@@ -23,22 +23,22 @@ int ObjectReflector::refl_index = 0;
 //	 }
 //}
 
-ObjectReflector::ObjectReflector(void (*init)(ObjectReflector*), ObjectReflector* _super) {
-	if(_super) TypeManager::get()->requirements[_super].push_back(this);
-	init(this);
-	super = _super;
-	N = refl_index++;
-	
-	if (TypeManager::get()->requirements.count(this)) {
-		std::cout << name << '\n';
-		auto val = TypeManager::get()->requirements.at(this);
-		markClassTree();
-	}
-
-	reflation[N][N] = EMatch::kSame;
-	TypeManager::get()->objectReflections.emplace(std::make_pair(name, this));
-	
-}
+//ObjectReflector::ObjectReflector(void (*init)(ObjectReflector*), ObjectReflector* _super) {
+//	if(_super) TypeManager::get()->requirements[_super].push_back(this);
+//	init(this);
+//	super = _super;
+//	N = refl_index++;
+//	
+//	if (TypeManager::get()->requirements.count(this)) {
+//		std::cout << name << '\n';
+//		auto val = TypeManager::get()->requirements.at(this);
+//		markClassTree();
+//	}
+//
+//	reflation[N][N] = EMatch::kSame;
+//	TypeManager::get()->objectReflections.emplace(std::make_pair(name, this));
+//	
+//}
 
 void ObjectReflector::markClassTree()
 {

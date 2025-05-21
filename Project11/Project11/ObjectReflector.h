@@ -4,7 +4,7 @@
 #include <tuple>
 #include "MethodReflector.h"
 #include "PropertyReflector.h"
-
+#include <iostream>
 #define BIT(x) (1 << x)
 
 enum EMatch : unsigned char {
@@ -16,11 +16,11 @@ enum EMatch : unsigned char {
 	kChildOf = BIT(5)
 };
 
-
+class TypeManager;
 class ObjectReflector {
 	size_t hash;
 	ObjectReflector* super;
-	//std::vector<ObjectReflector*> interfaces;
+	std::vector<ObjectReflector*> interfaces;
 public:
 	std::unordered_map<std::string, MethodReflector*> methods;
 	std::unordered_map<std::string, PropertyReflector*> properties;
@@ -38,8 +38,32 @@ public:
 	static int refl_index;
 
 	//ObjectReflector(void (*init)(ObjectReflector*));
-	ObjectReflector(void (*init)(ObjectReflector*), ObjectReflector* _super=nullptr);
+	//ObjectReflector(void (*init)(ObjectReflector*), ObjectReflector* _super=nullptr);
+	template <typename... TARGS>
+	ObjectReflector(void (*init)(ObjectReflector*), TARGS*... _super) {
+		super = nullptr;
+		if constexpr (sizeof...(TARGS) >= 0) {
+			interfaces = { _super };
+			for (auto item : interfaces) {
+				TypeManager::get()->requirements[item].push_back(this);
+			}
+			//super = interfaces[0];
+		}
+		
+		init(this);
+		
+		N = refl_index++;
 
+		if (TypeManager::get()->requirements.count(this)) {
+			std::cout << name << '\n';
+			auto val = TypeManager::get()->requirements.at(this);
+			markClassTree();
+		}
+
+		reflation[N][N] = EMatch::kSame;
+		TypeManager::get()->objectReflections.emplace(std::make_pair(name, this));
+
+	}
 
 	/*static void registerObject(std::string name, ObjectReflector* refl) {
 		objectReflections.insert(std::make_pair(name, refl));
