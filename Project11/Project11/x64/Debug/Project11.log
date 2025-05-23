@@ -1,12 +1,6 @@
-﻿  DeriveTest.cpp
-  GarbageCollector.cpp
-C:\Users\User\Documents\GitHub\reflect\Project11\Project11\GarbageCollector.cpp(136,8): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\User\Documents\GitHub\reflect\Project11\Project11\GarbageCollector.cpp(255,11): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\User\Documents\GitHub\reflect\Project11\Project11\GarbageCollector.cpp(272,9): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Reflection.cpp
-  TestClass.cpp
-  main.cpp
-  코드를 생성하고 있습니다...
-  Project11.vcxproj -> C:\Users\User\Documents\GitHub\reflect\Project11\x64\Debug\Project11.exe
-  'pwsh.exe'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는
-  배치 파일이 아닙니다.
+﻿  GarbageCollector.cpp
+C:\Users\chakh\source\repos\reflect\Project11\Project11\GarbageCollector.cpp(140,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\chakh\source\repos\reflect\Project11\Project11\GarbageCollector.cpp(258,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Project11.vcxproj -> C:\Users\chakh\source\repos\reflect\Project11\x64\Debug\Project11.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.

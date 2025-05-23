@@ -1,53 +1,53 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\",
+  "WorkspaceRootPath": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\ObjectReflector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\ObjectReflector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\ObjectReflector.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\ObjectReflector.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\GarbageCollector.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\GarbageCollector.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\TypeResolver.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\TypeResolver.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\GarbageCollector.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\GarbageCollector.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\TestClass.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\TestClass.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\ObjectReflector.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\ObjectReflector.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\DeriveTest.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\DeriveTest.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\DeriveTest.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\Reflection.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\Reflection.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\TestClass.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\TestClass.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\DeriveTest.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\DeriveTest.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\GarbageCollector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\GarbageCollector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\GarbageCollector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\PropertyReflector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\TestClass.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\TestClass.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\ObjectReflector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\ObjectReflector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\DeriveTest.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\DeriveTest.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\Reflection.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\Reflection.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\TypeResolver.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\TypeResolver.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\TestClass.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\TestClass.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\PropertyReflector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{59CC7632-3B8B-4EA5-9F48-25834B3791C2}|Project11\\Project11.vcxproj|solutionrelative:Project11\\PropertyReflector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
@@ -70,140 +70,30 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "unordered_map",
-              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\unordered_map",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\unordered_map",
-              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\unordered_map",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\unordered_map",
-              "ViewState": "AQIAAAUBAAAAAAAAAAAtwBIBAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-05-20T19:39:31.231Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "xhash",
-              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\xhash",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\xhash",
-              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\xhash",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\xhash",
-              "ViewState": "AQIAABAGAAAAAAAAAAAtwBwGAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-05-20T19:38:45.776Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "main.cpp",
-              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\main.cpp",
-              "RelativeDocumentMoniker": "Project11\\main.cpp",
-              "ToolTip": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\main.cpp",
-              "RelativeToolTip": "Project11\\main.cpp",
-              "ViewState": "AQIAAG8CAAAAAAAAAAAtwHwCAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-05-19T10:03:45.792Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "xstring",
-              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\xstring",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\xstring",
-              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\xstring",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\xstring",
-              "ViewState": "AQIAAEMUAAAAAAAAAAApwEoUAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-05-20T18:51:35.052Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "TestClass.cpp",
-              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\TestClass.cpp",
-              "RelativeDocumentMoniker": "Project11\\TestClass.cpp",
-              "ToolTip": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\TestClass.cpp",
-              "RelativeToolTip": "Project11\\TestClass.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAHAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-05-20T18:47:13.857Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "TestClass.h",
-              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\TestClass.h",
-              "RelativeDocumentMoniker": "Project11\\TestClass.h",
-              "ToolTip": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\TestClass.h",
-              "RelativeToolTip": "Project11\\TestClass.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAIAAAA",
+              "Title": "Reflection.h",
+              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\Reflection.h",
+              "RelativeDocumentMoniker": "Project11\\Reflection.h",
+              "ToolTip": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\Reflection.h",
+              "RelativeToolTip": "Project11\\Reflection.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB8AAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-05-20T18:41:50.17Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ObjectReflector.cpp",
-              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\ObjectReflector.cpp",
-              "RelativeDocumentMoniker": "Project11\\ObjectReflector.cpp",
-              "ToolTip": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\ObjectReflector.cpp",
-              "RelativeToolTip": "Project11\\ObjectReflector.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-05-20T19:33:25.077Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "GarbageCollector.cpp",
-              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\GarbageCollector.cpp",
-              "RelativeDocumentMoniker": "Project11\\GarbageCollector.cpp",
-              "ToolTip": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\GarbageCollector.cpp",
-              "RelativeToolTip": "Project11\\GarbageCollector.cpp",
-              "ViewState": "AQIAAE0AAAAAAAAAAAAmwFsAAAALAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-05-20T20:25:43.278Z",
+              "WhenOpened": "2025-05-20T12:53:25.53Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "DeriveTest.h",
-              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\DeriveTest.h",
-              "RelativeDocumentMoniker": "Project11\\DeriveTest.h",
-              "ToolTip": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\DeriveTest.h",
-              "RelativeToolTip": "Project11\\DeriveTest.h",
-              "ViewState": "AQIAABMAAAAAAAAAAAAUwCkAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-05-20T20:37:42.676Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Reflection.h",
-              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\Reflection.h",
-              "RelativeDocumentMoniker": "Project11\\Reflection.h",
-              "ToolTip": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\Reflection.h",
-              "RelativeToolTip": "Project11\\Reflection.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAABbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-05-20T12:53:25.53Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
               "Title": "ObjectReflector.h",
-              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\ObjectReflector.h",
+              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\ObjectReflector.h",
               "RelativeDocumentMoniker": "Project11\\ObjectReflector.h",
-              "ToolTip": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\ObjectReflector.h",
+              "ToolTip": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\ObjectReflector.h",
               "RelativeToolTip": "Project11\\ObjectReflector.h",
-              "ViewState": "AQIAAB4AAAAAAAAAAAAmwDEAAAADAAAA",
+              "ViewState": "AQIAAAwAAAAAAAAAAAD4vxsAAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-05-20T12:19:55.032Z",
               "EditorCaption": ""
@@ -211,10 +101,149 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "GarbageCollector.h",
+              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\GarbageCollector.h",
+              "RelativeDocumentMoniker": "Project11\\GarbageCollector.h",
+              "ToolTip": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\GarbageCollector.h",
+              "RelativeToolTip": "Project11\\GarbageCollector.h",
+              "ViewState": "AQIAACcAAAAAAAAAAAAqwCsAAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-05-20T20:02:14.073Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\main.cpp",
+              "RelativeDocumentMoniker": "Project11\\main.cpp",
+              "ToolTip": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\main.cpp",
+              "RelativeToolTip": "Project11\\main.cpp",
+              "ViewState": "AQIAAIICAAAAAAAAAAArwJUCAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-05-19T10:03:45.792Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TestClass.h",
+              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\TestClass.h",
+              "RelativeDocumentMoniker": "Project11\\TestClass.h",
+              "ToolTip": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\TestClass.h",
+              "RelativeToolTip": "Project11\\TestClass.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-05-20T18:41:50.17Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ObjectReflector.cpp",
+              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\ObjectReflector.cpp",
+              "RelativeDocumentMoniker": "Project11\\ObjectReflector.cpp",
+              "ToolTip": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\ObjectReflector.cpp",
+              "RelativeToolTip": "Project11\\ObjectReflector.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADkAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-05-20T19:33:25.077Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "GarbageCollector.cpp",
+              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\GarbageCollector.cpp",
+              "RelativeDocumentMoniker": "Project11\\GarbageCollector.cpp",
+              "ToolTip": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\GarbageCollector.cpp",
+              "RelativeToolTip": "Project11\\GarbageCollector.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-05-20T20:25:43.278Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DeriveTest.h",
+              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\DeriveTest.h",
+              "RelativeDocumentMoniker": "Project11\\DeriveTest.h",
+              "ToolTip": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\DeriveTest.h",
+              "RelativeToolTip": "Project11\\DeriveTest.h",
+              "ViewState": "AQIAAAUAAAAAAAAAAAArwBMAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-05-20T20:37:42.676Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DeriveTest.cpp",
+              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\DeriveTest.cpp",
+              "RelativeDocumentMoniker": "Project11\\DeriveTest.cpp",
+              "ToolTip": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\DeriveTest.cpp",
+              "RelativeToolTip": "Project11\\DeriveTest.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAALAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-05-20T20:38:37.175Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "TestClass.cpp",
+              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\TestClass.cpp",
+              "RelativeDocumentMoniker": "Project11\\TestClass.cpp",
+              "ToolTip": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\TestClass.cpp",
+              "RelativeToolTip": "Project11\\TestClass.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-05-20T18:47:13.857Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "xstring",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\xstring",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\xstring",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\xstring",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\xstring",
+              "ViewState": "AQIAAEMUAAAAAAAAAAApwEoUAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-05-20T18:51:35.052Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "xhash",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\xhash",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\xhash",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\xhash",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\xhash",
+              "ViewState": "AQIAABAGAAAAAAAAAAAtwBwGAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-05-20T19:38:45.776Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "unordered_map",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\unordered_map",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\unordered_map",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\unordered_map",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\unordered_map",
+              "ViewState": "AQIAAAUBAAAAAAAAAAAtwBIBAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-05-20T19:39:31.231Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "TypeResolver.h",
-              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\TypeResolver.h",
+              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\TypeResolver.h",
               "RelativeDocumentMoniker": "Project11\\TypeResolver.h",
-              "ToolTip": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\TypeResolver.h",
+              "ToolTip": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\TypeResolver.h",
               "RelativeToolTip": "Project11\\TypeResolver.h",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
@@ -222,36 +251,12 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "DeriveTest.cpp",
-              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\DeriveTest.cpp",
-              "RelativeDocumentMoniker": "Project11\\DeriveTest.cpp",
-              "ToolTip": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\DeriveTest.cpp",
-              "RelativeToolTip": "Project11\\DeriveTest.cpp",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAABcAAAAkAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-05-20T20:38:37.175Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "GarbageCollector.h",
-              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\GarbageCollector.h",
-              "RelativeDocumentMoniker": "Project11\\GarbageCollector.h",
-              "ToolTip": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\GarbageCollector.h",
-              "RelativeToolTip": "Project11\\GarbageCollector.h",
-              "ViewState": "AQIAADYAAAAAAAAAAAAAAEMAAAACAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-05-20T20:02:14.073Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 15,
               "Title": "list",
               "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\list",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\list",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\list",
               "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\list",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\list",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\list",
               "ViewState": "AQIAAEcEAAAAAAAAAAAtwFQEAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2025-05-20T20:42:46.018Z"
@@ -260,13 +265,14 @@
               "$type": "Document",
               "DocumentIndex": 11,
               "Title": "PropertyReflector.h",
-              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\PropertyReflector.h",
+              "DocumentMoniker": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\PropertyReflector.h",
               "RelativeDocumentMoniker": "Project11\\PropertyReflector.h",
-              "ToolTip": "C:\\Users\\chakh\\source\\repos\\EventDriven\\reflect\\Project11\\Project11\\PropertyReflector.h",
+              "ToolTip": "C:\\Users\\chakh\\source\\repos\\reflect\\Project11\\Project11\\PropertyReflector.h",
               "RelativeToolTip": "Project11\\PropertyReflector.h",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-05-20T12:19:51.585Z"
+              "WhenOpened": "2025-05-20T12:19:51.585Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -80,7 +80,8 @@ public:
 
 	void one() {
 		any += 200;
-		std::cout << "y cccccc " << any << '\n';
+		
+		std::cout << (int)GET_TAG(this)->age << ", " << (int)GET_TAG(this)->regionID << ", " << any << ", " << this << '\n';
 	}
 public:
 
@@ -644,9 +645,11 @@ int main() {
 
 	start = clock();
 	gco->dude = new GCObjectable();
-	for (int i = 0; i < 200000; i++) {
+	gcob.ptr = new GCObjectable();
+	gcob->one();
+	for (int i = 0; i < 100000; i++) {
 		//gco->dude = new GCObjectable();
-		if (i == 0) gcob.ptr = gco->dude;
+		//if (i == 0) gcob.ptr = gco->dude;
 		gco->buddy = new GCObjectable();
 		gco->buddy = new GCObjectable();
 		gco->buddy2 = new GCObject();
@@ -656,12 +659,16 @@ int main() {
 		//}
 		gcob->one();
 	}
+	gcob->one();
 	auto pro = GCPtr<TestClass>(new TestClass());
 	pro->truea = 20;
 	finish = clock();
 	//std::cout << reinterpret_cast<> gcob.ptr
 
-	std::cout << "finish taks " << finish - start << std::endl;
+	auto proper = GET_REFLECTOR(gco.ptr)->properties["buddy"]->As<void*>(gco.ptr);
+	*proper = gco->buddy2;
+
+	std::cout << "finish taks " << ((void*)gco->buddy == (void*)gco->buddy2) << std::endl;
 
 	//duration = (double)(finish - start);
 	//std::cout << "\n\n-------------\n" << (finish - start) << "secs with " << currentKill << std::endl;

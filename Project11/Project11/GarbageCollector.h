@@ -77,12 +77,15 @@ public:/*
 	//size_t allocatedMemory = 0;
 	//std::unordered_map<int, void**> liveNodes;
 	int eden;
+	int survivor;
 
-	std::unordered_map<void*, void**> match;
+	std::unordered_map<void*, std::list<void**>> match;
 	std::deque<int> youngRegions;
 	std::unordered_set<int> sweepRegions;
 	std::list<GCPointer*> refs;
 	std::deque<void*> gray;
+	std::unordered_map<void*, void*> lv;
+	
 	//std::deque<void*> live;
 	//std::list<void*> black;
 	//std::list<void*> live;
@@ -110,10 +113,10 @@ public:/*
 	inline void pushLive(void* live) {
 		int rid = GET_TAG(live)->regionID;
 		regions[rid].liveNodes.push_back(live);
-		if (!sweepRegions.count(rid)) {
+		/*if (!sweepRegions.count(rid)) {
 			sweepRegions.emplace(rid);
 			youngRegions.push_back(rid);
-		}
+		}*/
 	}
 
 

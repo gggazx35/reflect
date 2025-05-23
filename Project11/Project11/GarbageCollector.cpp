@@ -4,8 +4,9 @@
 GarbageCollector::GarbageCollector()
 {
 	
-	for (int i = 0; i < regions.size(); i++) {
-		pushUnused(i);
+	for (int i = 0; i < regions.size()-1; i++) {
+		//pushUnused(i);
+		unusedRegions.push_back(i);
 		regions[i].memory = ((char*)(memoryHanlde) + (i * MAX_REGION_CAPACITY));
 	}
 
@@ -27,9 +28,10 @@ void GarbageCollector::mark() {
 	for (auto ref : refs) {
 		if (ref->ptr) {
 			registerGray(ref->ptr);
+			//match[ref->ptr].push_back(&ref->ptr);
 		}
 	}
-	eden = popUnused();
+	//eden = popUnused();
 }
 
 void GarbageCollector::markRef(void* _this) {
@@ -43,8 +45,8 @@ void GarbageCollector::markRef(void* _this) {
 		if (val) {
 			registerGray(val);
 
-			if (match.count(val) == 0) 
-				match.insert(std::make_pair(val, ptr));
+			//if (match.count(val) == 0) 
+			match[val].push_back(ptr);
 		}
 	}
 	pushLive(_this);
@@ -93,6 +95,7 @@ void GarbageCollector::registerGray(void* val)
 
 void GarbageCollector::pushUnused(int region)
 {
+	sweepRegions.erase(region);
 	unusedRegions.push_back(region);
 	regions[region].age = 0;
 	regions[region].usedSize = 0;
@@ -116,6 +119,7 @@ int GarbageCollector::popUnused()
 	}
 	auto re = unusedRegions.front();
 	unusedRegions.pop_front();
+	sweepRegions.insert(re);
 	return re;
 }
 
@@ -156,23 +160,22 @@ void GarbageCollector::sweep2(int fromRegion, int toRegion) {
 		i--;
 	}
 
-	if (age > 1) {
-		age = 204;
-	}
+	pushUnused(fromRegion);
+
 
 	if (regions[toRegion].usedSize > 0) {
 		regions[toRegion].age = age + 1;
-		youngRegions.push_back(toRegion);
+		//youngRegions.push_back(toRegion);
+		//sweepRegions.emplace(toRegion);
 		std::cout << "region ex id: " << fromRegion << ", now id" << toRegion << " aged\n";
 	}
 	else {
 		pushUnused(toRegion);
+		//sweepRegions.erase(toRegion);
 		std::cout << "region id: " << toRegion << " has been freed\n";
 	}
-	pushUnused(fromRegion);
 
-
-
+	
 	//liveList.clear();
 }
 
@@ -253,7 +256,7 @@ void GarbageCollector::sweep() {
 
 void* GarbageCollector::Allocate(size_t _size) {
 	int size = _size;
-	//if (size < DEFAULT_PADDING) size = DEFAULT_PADDING;
+	if (size < DEFAULT_PADDING) size = DEFAULT_PADDING;
 
 	if (!onGC && (regions[eden].usedSize + ACTUAL_SIZEOF(size)) >= MAX_REGION_CAPACITY) {
 
@@ -265,18 +268,40 @@ void* GarbageCollector::Allocate(size_t _size) {
 		int num = eden;
 		onGC = true;
 		mark();
+		eden = popUnused();
 		//grayOut();
 		while (!gray.empty()) {
 			grayOut();
 		}
-		int i = youngRegions.size();
-		while (i != 0) {
-			int region = youngRegions.front();
-			youngRegions.pop_front();
-			sweep2(region, popUnused());
-			i--;
+		//int i = youngRegions.size();
+		std::deque<int> dec;
+
+		for (int region : sweepRegions) {
+			dec.push_back(region);
 		}
-		
+
+		for (int region : dec) {
+			//int region = youngRegions.front();
+			//youngRegions.pop_front();
+			sweep2(region, popUnused());
+			
+			//i--;
+		}
+		for (auto m : match) {
+			//if (m.count(GET_OBJ(exAddr))) {
+			auto& vlist = m.second;
+			for (auto v : vlist) *v = lv[m.first];
+			//}
+		}
+
+		for (auto m : refs) {
+			m->ptr = lv[m->ptr];
+		}
+
+		match.clear();
+		lv.clear();
+		//pushUnused(eden);
+		//sweepRegions.erase(eden);
 		//std::cout << "fas" << '\n';
 		onGC = false;
 
@@ -284,7 +309,7 @@ void* GarbageCollector::Allocate(size_t _size) {
 
 		std::cout << "gc taks " << finish - start << std::endl;
 
-		sweepRegions.clear();
+		//sweepRegions.clear();
 	}
 
 	auto v = reinterpret_cast<AllocObj*>(memoryHanlde + (regions[eden].usedSize));
@@ -311,8 +336,7 @@ void* GarbageCollector::move(AllocObj* tag, int toRegion)
 	memcpy(newAddr, exAddr, size);
 	regions[toRegion].usedSize += size;
 
-	if(match.count(GET_OBJ(exAddr)))
-		*match[GET_OBJ(exAddr)] = GET_OBJ(newAddr);
+	lv.emplace(GET_OBJ(exAddr), GET_OBJ(newAddr));
 
 	std::cout << "aged " <<  (int)(((AllocObj*)newAddr)->age) << '\n';
 

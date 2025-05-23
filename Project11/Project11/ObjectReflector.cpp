@@ -49,6 +49,7 @@ void ObjectReflector::markClassTree()
 
 		//val->methods = _super->methods;
 		val->properties.insert(properties.begin(), properties.end());
+		for(auto k : pointers) val->pointers.push_back(k);
 		//pointers.assign(_super->pointers.begin(), _super->pointers.end());
 		reflation[val->N][N] = (EMatch::kChildOf | EMatch::kIsAChildOf);
 
