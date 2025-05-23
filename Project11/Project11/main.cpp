@@ -589,6 +589,7 @@ E* cast(T* out) {
 	return (isCastable(out, TypeResolver<E>::get()) ? reinterpret_cast<E*>(out) : nullptr);
 }
 
+
 typedef poss stupid;
 int main() {
 	//rep<decltype(&poss::overrid)> sans;
@@ -623,6 +624,7 @@ int main() {
 	//}
 
 	auto gco = GCPtr<GCObjectable>(new GCObjectable());
+	auto gcob = GCPtr<GCObjectable>(new GCObjectable());
 	//std::cout << "sizeof" << gco->getReflector()->size;
 	std::cout << TypeResolver<Derive2Test>::get()->isASuperOf(TypeResolver<DeriveTest>::get()) << '\n';
 	std::cout << TypeResolver<DTest>::get()->isAChildOf(TypeResolver<TestClass>::get()) << '\n';
@@ -637,23 +639,28 @@ int main() {
 	std::cout << TypeResolver<TTest>::get()->isAChildOf(TypeResolver<TestClass>::get()) << '\n';
 
 	time_t start, finish;
-	double duration;
+	//double duration;
 
 	start = clock();
-
-	for (int i = 0; i < 1000; i++) {
+	gco->dude = new GCObjectable();
+	for (int i = 0; i < 2000000; i++) {
+		//gco->dude = new GCObjectable();
+		if (i == 0) gcob.ptr = gco->dude;
 		gco->buddy = new GCObjectable();
 		gco->buddy = new GCObjectable();
 		gco->buddy2 = new GCObject();
 		//std::cout << "size is" << GET_TAG(gco->buddy)->size << "\n\n\n\n\n";
-		if (GET_REFLECTOR(gco.ptr)->isChildOf(GET_REFLECTOR(gco->buddy2))) {
-			gco->dude = new GCObjectable();
-		}
+		//if (GET_REFLECTOR(gco.ptr)->isAChildOf(GET_REFLECTOR(gco->buddy2))) {
+		
+		//}
 		
 	}
 	auto pro = GCPtr<TestClass>(new TestClass());
 	pro->truea = 20;
 	finish = clock();
+	//std::cout << reinterpret_cast<> gcob.ptr
+
+	std::cout << "finish taks " << finish - start << std::endl;
 
 	//duration = (double)(finish - start);
 	//std::cout << "\n\n-------------\n" << (finish - start) << "secs with " << currentKill << std::endl;
