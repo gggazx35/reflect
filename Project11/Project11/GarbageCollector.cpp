@@ -163,9 +163,11 @@ void GarbageCollector::sweep2(int fromRegion, int toRegion) {
 	if (regions[toRegion].usedSize > 0) {
 		regions[toRegion].age = age + 1;
 		youngRegions.push_back(toRegion);
+		std::cout << "region id: " << toRegion << " has aged\n";
 	}
 	else {
 		pushUnused(toRegion);
+		std::cout << "region id: " << toRegion << " has been freed\n";
 	}
 	pushUnused(fromRegion);
 
