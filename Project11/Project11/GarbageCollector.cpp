@@ -47,7 +47,7 @@ void GarbageCollector::markRef(void* _this) {
 				match.insert(std::make_pair(val, ptr));
 		}
 	}
-	pushLive(GET_TAG(_this)->regionID, _this);
+	pushLive(_this);
 	gray.pop_front();
 }
 //
@@ -140,7 +140,7 @@ void GarbageCollector::sweep2(int fromRegion, int toRegion) {
 		auto obj = GET_TAG(ref);
 		if (obj->state == EGCState::BLACK) {
 #ifdef _DEBUG 
-			std::cout << obj << " " << obj->size << " is alive\n";
+			std::cout << (int)obj->age << " " << obj->size << " is alive\n";
 #endif
 
 			obj->state = EGCState::WHITE;
@@ -163,7 +163,7 @@ void GarbageCollector::sweep2(int fromRegion, int toRegion) {
 	if (regions[toRegion].usedSize > 0) {
 		regions[toRegion].age = age + 1;
 		youngRegions.push_back(toRegion);
-		std::cout << "region id: " << toRegion << " has aged\n";
+		std::cout << "region ex id: " << fromRegion << ", now id" << toRegion << " aged\n";
 	}
 	else {
 		pushUnused(toRegion);
@@ -253,7 +253,7 @@ void GarbageCollector::sweep() {
 
 void* GarbageCollector::Allocate(size_t _size) {
 	int size = _size;
-	if (size < DEFAULT_PADDING) size = DEFAULT_PADDING;
+	//if (size < DEFAULT_PADDING) size = DEFAULT_PADDING;
 
 	if (!onGC && (regions[eden].usedSize + ACTUAL_SIZEOF(size)) >= MAX_REGION_CAPACITY) {
 
@@ -276,6 +276,7 @@ void* GarbageCollector::Allocate(size_t _size) {
 			sweep2(region, popUnused());
 			i--;
 		}
+		
 		//std::cout << "fas" << '\n';
 		onGC = false;
 
@@ -290,6 +291,7 @@ void* GarbageCollector::Allocate(size_t _size) {
 	v->size = ACTUAL_SIZEOF(size);
 	v->state =/* onGC ? EGCState::GRAY : */EGCState::WHITE;
 	v->regionID = eden;
+	v->age = 0;
 #ifdef _DEBUG
 	//std::cout << v << " " << v->size << '\n';
 #endif
@@ -302,14 +304,17 @@ void* GarbageCollector::move(AllocObj* tag, int toRegion)
 
 	unsigned int size = tag->size;
 	tag->regionID = toRegion;
+	tag->age++;
 	
 	void* exAddr = tag;
 	void* newAddr = currentRegionAddress(toRegion);
-	memcpy(tag, newAddr, size);
+	memcpy(newAddr, exAddr, size);
 	regions[toRegion].usedSize += size;
 
 	if(match.count(GET_OBJ(exAddr)))
 		*match[GET_OBJ(exAddr)] = GET_OBJ(newAddr);
+
+	std::cout << "aged " <<  (int)(((AllocObj*)newAddr)->age) << '\n';
 
 	return newAddr;
 }

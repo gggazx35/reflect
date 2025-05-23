@@ -72,14 +72,15 @@
 class GCObject {
 public:
 	using super = void;
-	//long long any;
+	long long any;
 	GCObject() {
 		//GarbageCollector::registerObject(this);
 	}
 
 
 	void one() {
-		std::cout << "y cccccc";
+		any += 200;
+		std::cout << "y cccccc " << any << '\n';
 	}
 public:
 
@@ -643,7 +644,7 @@ int main() {
 
 	start = clock();
 	gco->dude = new GCObjectable();
-	for (int i = 0; i < 2000000; i++) {
+	for (int i = 0; i < 200000; i++) {
 		//gco->dude = new GCObjectable();
 		if (i == 0) gcob.ptr = gco->dude;
 		gco->buddy = new GCObjectable();
@@ -653,7 +654,7 @@ int main() {
 		//if (GET_REFLECTOR(gco.ptr)->isAChildOf(GET_REFLECTOR(gco->buddy2))) {
 		
 		//}
-		
+		gcob->one();
 	}
 	auto pro = GCPtr<TestClass>(new TestClass());
 	pro->truea = 20;

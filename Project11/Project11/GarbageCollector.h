@@ -26,8 +26,10 @@ enum class EGCColor : unsigned char {
 class AllocObj {
 public:
 	EGCState state;
+	char age;
 	unsigned int size;
 	unsigned short regionID;
+
 	ObjectReflector* reflector;
 };
 
@@ -105,9 +107,9 @@ public:/*
 		return (regions[region].memory + regions[region].usedSize);
 	}
 
-	inline void pushLive(int region, void* live) {
-		regions[region].liveNodes.push_back(live);
+	inline void pushLive(void* live) {
 		int rid = GET_TAG(live)->regionID;
+		regions[rid].liveNodes.push_back(live);
 		if (!sweepRegions.count(rid)) {
 			sweepRegions.emplace(rid);
 			youngRegions.push_back(rid);
