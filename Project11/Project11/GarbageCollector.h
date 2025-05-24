@@ -33,6 +33,10 @@ public:
 	ObjectReflector* reflector;
 };
 
+class SweepCell {
+	int region;
+};
+
 #define ACTUAL_SIZEOF(size) (size + sizeof(AllocObj))
 #define GET_TAG(x) reinterpret_cast<AllocObj*>(((char*)x) - sizeof(AllocObj))
 #define GET_OBJ(x) reinterpret_cast<void*>(((char*)x) + sizeof(AllocObj))
@@ -52,6 +56,7 @@ public:
 	int age;
 	//void** liveNodes;
 	std::vector<void*> liveNodes;
+	//std::vector<void*> grayNodes;
 	//bool unused;
 	////Region(char* _mem) : memory(_mem), usedSize(0) {
 	////	//unused = true;
@@ -66,42 +71,71 @@ private:
 	GarbageCollector();
 	GarbageCollector(const GarbageCollector& ref) {}
 	GarbageCollector& operator=(const GarbageCollector& ref) {}
-	~GarbageCollector() {}
+	~GarbageCollector() {
+		free(memoryHanlde);
+	}
+	struct SweepData {
+		int fromRegion;
+		int toRegion;
+		SweepData(int from, int to) : fromRegion(from), toRegion(to)  {
+
+		}
+	};
+	/// WARNING: DON'T USE THIS FOR ALLOCATING MEMORY 
+	char* memoryHanlde = new char[MAX_REGION_CAPACITY * 20];
 public:/*
 	char* oldGeneration = new char[MAX_OBJECT_SIZE];
 	char* surviorGeneration = new char[MAX_OBJECT_SIZE];*/
-	char* memoryHanlde = new char[MAX_REGION_CAPACITY * 20];
+
+	// INFO: regions are splited memoryHandle usually uses when allocating memory referencing liveNodes
 	std::array<Region, 20> regions;
+	
+	// WARNING: NEVER USE THIS FOR SEARCHING NON-ALLOCATED REGIONS USE 'popUnused()' instead
 	std::deque<int> unusedRegions;
 	//std::deque<int> markedRegions;
 	//size_t allocatedMemory = 0;
 	//std::unordered_map<int, void**> liveNodes;
+	
+	// INFO: current eden's region id
 	int eden;
+	
+	// (NOT IMPLMENTED) INFO: current survivor's region id
 	int survivor;
+	
 
+	// INFO: this re-matching allocated objects from old address to new address only uses while compacting memory
 	std::unordered_map<void*, std::list<void**>> match;
+	// INFO: this re-matching allocated objects in reference list from old address to new address only uses while compacting memory
+	std::unordered_map<void*, std::vector<GCPointer*>> referenceMatch;
+
+
 	std::deque<int> youngRegions;
 	std::unordered_set<int> sweepRegions;
 	std::list<GCPointer*> refs;
 	std::deque<void*> gray;
-	std::unordered_map<void*, void*> lv;
 	
 	//std::deque<void*> live;
 	//std::list<void*> black;
 	//std::list<void*> live;
-	bool onGC;
+	//std::thread markingThread;
+
+	bool onGC = false;
+	bool onMarking = false;
 	void mark();
 	void markRef(void* _this);
 	void compactRef(void* _this);
 	void sweep();
 	void compact();
-	void sweep2(int fromRegion, int toRegion);
+	void sweep2(SweepData& data);
 	void grayOut();
-	void registerGray(void* val);
+	void registerGray(void* val, std::deque<void*>& gray);
+
+	void startGC();
 
 	void pushUnused(int region);
-	Region* newRegion();
+	void mainMark();
 	int popUnused();
+
 
 	void* Allocate(size_t size);
 	void* move(AllocObj* tag, int toRegion);
@@ -117,6 +151,8 @@ public:/*
 			sweepRegions.emplace(rid);
 			youngRegions.push_back(rid);
 		}*/
+
+		std::cout << live << "is Alive\n";
 	}
 
 

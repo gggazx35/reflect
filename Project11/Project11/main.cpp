@@ -657,7 +657,7 @@ int main() {
 		//if (GET_REFLECTOR(gco.ptr)->isAChildOf(GET_REFLECTOR(gco->buddy2))) {
 		
 		//}
-		gcob->one();
+		//gcob->one();
 	}
 	gcob->one();
 	auto pro = GCPtr<TestClass>(new TestClass());

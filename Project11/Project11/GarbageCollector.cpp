@@ -1,15 +1,17 @@
 #include "GarbageCollector.h"
 #include <iostream>
-
+#include <thread>
+#include "ThreadPool.h"
 GarbageCollector::GarbageCollector()
 {
 	
 	for (int i = 0; i < regions.size()-1; i++) {
 		//pushUnused(i);
 		unusedRegions.push_back(i);
+		//regions[i].memory = new char[MAX_REGION_CAPACITY];
 		regions[i].memory = ((char*)(memoryHanlde) + (i * MAX_REGION_CAPACITY));
 	}
-
+	
 	eden = popUnused();
 }
 
@@ -24,33 +26,38 @@ GarbageCollector::GarbageCollector()
 // to impl set gray when ref
 void GarbageCollector::mark() {
 	//pushUnused(eden);
-	//youngRegions.push_back(eden);
+	//youngRegions.push_;back(eden);
+	std::cout << "FFAS\n";
 	for (auto ref : refs) {
 		if (ref->ptr) {
-			registerGray(ref->ptr);
+			registerGray(ref->ptr, gray);
 			//match[ref->ptr].push_back(&ref->ptr);
+			referenceMatch[ref->ptr].push_back(ref);
 		}
 	}
 	//eden = popUnused();
 }
 
 void GarbageCollector::markRef(void* _this) {
+	if (!_this) return;
 	GET_TAG(_this)->state = EGCState::BLACK;
 	auto refs = GET_REFLECTOR(_this);
 
 	//match.insert(std::make_pair(_this, nullptr));
-	for (auto ref : refs->pointers) {
-		auto val = *ref->As<void*>(_this);
-		auto ptr = ref->As<void*>(_this);
+	if (!refs) return;
+	auto pointers = refs->pointers;
+	for (auto ref : pointers) {
+		void* val = *ref->As<void*>(_this);
+		void** ptr = ref->As<void*>(_this);
 		if (val) {
-			registerGray(val);
-
+			//registerGray(val);
+			if(GET_TAG(val)->state == EGCState::WHITE) markRef(val);
 			//if (match.count(val) == 0) 
-			match[val].push_back(ptr);
+			//match[val].push_back(ptr);
 		}
 	}
 	pushLive(_this);
-	gray.pop_front();
+	//gray.pop_front();
 }
 //
 //void GarbageCollector::markRef(void* _this) {
@@ -76,21 +83,60 @@ void GarbageCollector::compact() {
 
 void GarbageCollector::grayOut()
 {
-	auto i = gray.size();
-	while (i != 0) {
-		markRef(gray.front());
-		i--;
+	//auto i = gray.size();{
+	//onMarking = true;
+	{
+		ThreadPool threads(4);
+		for (auto i : gray) {
+			threads.EnqueueJob([this, i]() { this->markRef(i); });
+			//gray.pop_front();
+		}
+		printf("im not\n");
 	}
+	gray.clear();
+	onMarking = false;
 	//if (gray.empty()) sweep2();
 	//gray.clear();
 }
 
-void GarbageCollector::registerGray(void* val)
+void GarbageCollector::registerGray(void* val, std::deque<void*>& gray)
 {
-	if (GET_TAG(val)->state == EGCState::WHITE) {
+	EGCState state = GET_TAG(val)->state;
+	int region = GET_TAG(val)->regionID;
+	if (state == EGCState::WHITE) {
 		gray.push_back(val);
 		GET_TAG(val)->state = EGCState::GRAY;
 	}
+}
+
+void GarbageCollector::startGC()
+{
+
+	time_t start, finish;
+	//double duration;
+
+	start = clock();
+	eden = popUnused();
+	do {
+
+		if (onGC == false) {
+			mark();
+			onMarking = true;
+			std::thread markThread([this]() { this->grayOut(); });
+			markThread.detach();
+		}
+		else {
+			while (onMarking == true);
+			sweep();
+			onGC = false;
+			continue;
+		}
+	} while (0);
+	onGC = true;
+
+	finish = clock();
+
+	std::cout << "gc taks " << finish - start << std::endl;
 }
 
 void GarbageCollector::pushUnused(int region)
@@ -100,6 +146,15 @@ void GarbageCollector::pushUnused(int region)
 	regions[region].age = 0;
 	regions[region].usedSize = 0;
 	regions[region].liveNodes.clear();
+}
+
+void GarbageCollector::mainMark()
+{
+	std::thread markThread();
+	while (!gray.empty()) {
+		
+		grayOut();
+	}
 }
 
 //Region* GarbageCollector::newRegion()
@@ -135,10 +190,10 @@ void GarbageCollector::compactRef(void* _this) {
 	//}
 	////std::cout << "*ref->As<void*>(this)" << '\n';
 }
-void GarbageCollector::sweep2(int fromRegion, int toRegion) {
-	auto liveList = regions[fromRegion].liveNodes.data();
-	int i = regions[fromRegion].liveNodes.size() - 1;
-	int age = regions[fromRegion].age;
+void GarbageCollector::sweep2(SweepData& data) {
+	auto liveList = regions[data.fromRegion].liveNodes.data();
+	int i = regions[data.fromRegion].liveNodes.size() - 1;
+	int age = regions[data.fromRegion].age;
 	while (i >= 0) {
 		void* ref = liveList[i];
 		auto obj = GET_TAG(ref);
@@ -148,7 +203,7 @@ void GarbageCollector::sweep2(int fromRegion, int toRegion) {
 #endif
 
 			obj->state = EGCState::WHITE;
-			move(obj, toRegion);
+			move(obj, data.toRegion);
 
 			//live.push_back(ref);
 
@@ -160,161 +215,91 @@ void GarbageCollector::sweep2(int fromRegion, int toRegion) {
 		i--;
 	}
 
-	pushUnused(fromRegion);
+	//pushUnused(fromRegion);
 
 
-	if (regions[toRegion].usedSize > 0) {
-		regions[toRegion].age = age + 1;
-		//youngRegions.push_back(toRegion);
-		//sweepRegions.emplace(toRegion);
-		std::cout << "region ex id: " << fromRegion << ", now id" << toRegion << " aged\n";
-	}
-	else {
-		pushUnused(toRegion);
-		//sweepRegions.erase(toRegion);
-		std::cout << "region id: " << toRegion << " has been freed\n";
-	}
+	//if (regions[data.toRegion].usedSize > 0) {
+	//	regions[data.toRegion].age = age + 1;
+	//	//youngRegions.push_back(toRegion);
+	//	//sweepRegions.emplace(toRegion);
+	//	
+	//}
+	//else {
+	//	//isFailure = true;
+	//	//pushUnused(toRegion);
+	//	//sweepRegions.erase(toRegion);
+	//	//std::cout << "region id: " << data.toRegion << " has been freed\n";
+	//}
 
 	
-	//liveList.clear();
+	regions[data.fromRegion].liveNodes.clear();
 }
 
-void GarbageCollector::sweep() {
-//	size_t bufferSize = 0;
-//	//auto it = objects.begin();
-//	for (size_t i = 0; i < eden->;) {
-//		auto obj = reinterpret_cast<AllocObj*>(memoryHanlde + i);
-//		if (obj->state == EGCState::BLACK) {
-//#ifdef _DEBUG 
-//			std::cout << obj << " " << obj->size << " is alive\n";
-//#endif
-//			obj->state = EGCState::DEAD;
-//			//if (match.count(GET_OBJ(obj)))
-//			//	match.at(GET_OBJ(obj)) = GET_OBJ(buffer + bufferSize);
-//			//memcpy(buffer + bufferSize, memoryHanlde + i, obj->size);
-//			//bufferSize += obj->size;
-//
-//		}
-//		else if (obj->state == EGCState::WHITE) {
-//#ifdef _DEBUG 
-//			std::cout << obj << " has been deleted now size is " << obj->size << '\n';
-//#endif
-//
-//			//delete GET_OBJ(obj);
-//		}
-//		i += obj->size;
-//	}
-//	allocatedMemory = 0;
-//	//delete[] memoryHanlde;
-//
-//	for (auto it = refs.begin(); it != refs.end(); it++) {
-//		//*(it) = (GCObject*)match.at(*it);
-//		(*it)->ptr = (void*)match.at((*it)->ptr);
-//	}
+void GarbageCollector::sweep() { 
 
+	//int i = youngRegions.size();
+	std::deque<SweepData> dec;
+	{
+		//int sweepSize = sweepRegions.size();
+		for (auto region : sweepRegions) {
+			dec.push_back(SweepData(region, -1));
+		}
+		ThreadPool threads(4);
+		for (auto& region : dec) {
+			//int region = youngRegions.front();
+			//youngRegions.pop_front();
+			//SweepData* ptr = region;
+			//region.toRegion = 2000;
 
+			threads.EnqueueJob([this, &region]() {
+				region.toRegion = popUnused();
+				this->sweep2(region);
+				});
+			//sweep2(region, popUnused());
+
+			//i--;
+		}
+	}
+
+	for (auto region : dec) {
+		pushUnused(region.fromRegion);
+		if(regions[region.toRegion].usedSize <= 0)
+			pushUnused(region.toRegion);
+		else {
+			//isFailure = true;
+			pushUnused(region.toRegion);
+			sweepRegions.erase(region.toRegion);
+			std::cout << "region id: " << regions[region.toRegion].usedSize << " live\n";
+		}
+	}
+
+	match.clear();
+	referenceMatch.clear();
+	//sweepRegions.clear();
+	/*for (auto m : refs) {
+		m->ptr = lv[m->ptr];
+	}*/
 }
-////
-////void GarbageCollector::sweep() {
-////	char* buffer = new char[MAX_OBJECT_SIZE];
-////
-////
-////	size_t bufferSize = 0;
-////	//auto it = objects.begin();
-////	for (size_t i = 0; i < allocatedMemory;) {
-////		auto obj = reinterpret_cast<AllocObj*>(memoryHanlde + i);
-////		if (obj->state == EGCState::MARKED) {
-////#ifdef _DEBUG 
-////			std::cout << obj << " " << obj->size << " is alive\n";
-////#endif
-////			obj->state = EGCState::UNMARKED;
-////			if (match.count(GET_OBJ(obj)))
-////				match.at(GET_OBJ(obj)) = GET_OBJ(buffer + bufferSize);
-////			memcpy(buffer + bufferSize, memoryHanlde + i, obj->size);
-////			bufferSize += obj->size;
-////
-////		}
-////		else {
-////#ifdef _DEBUG 
-////			std::cout << obj << " has been deleted now size is " << obj->size << '\n';
-////#endif
-////
-////			//delete GET_OBJ(obj);
-////		}
-////		i += obj->size;
-////	}
-////	allocatedMemory = 0;
-////	delete[] memoryHanlde;
-////
-////	for (auto it = refs.begin(); it != refs.end(); it++) {
-////		//*(it) = (GCObject*)match.at(*it);
-////		(*it)->ptr = (void*)match.at((*it)->ptr);
-////	}
-////
-////
-////}
 
 void* GarbageCollector::Allocate(size_t _size) {
 	int size = _size;
 	if (size < DEFAULT_PADDING) size = DEFAULT_PADDING;
 
-	if (!onGC && (regions[eden].usedSize + ACTUAL_SIZEOF(size)) >= MAX_REGION_CAPACITY) {
-
-		time_t start, finish;
-		//double duration;
-
-		start = clock();
-
-		int num = eden;
-		onGC = true;
-		mark();
-		eden = popUnused();
-		//grayOut();
-		while (!gray.empty()) {
-			grayOut();
+	/*if (onGC){
+		if (!onMarking) {
+			sweep();
+			onGC = false;
 		}
-		//int i = youngRegions.size();
-		std::deque<int> dec;
+	}*/
 
-		for (int region : sweepRegions) {
-			dec.push_back(region);
-		}
-
-		for (int region : dec) {
-			//int region = youngRegions.front();
-			//youngRegions.pop_front();
-			sweep2(region, popUnused());
-			
-			//i--;
-		}
-		for (auto m : match) {
-			//if (m.count(GET_OBJ(exAddr))) {
-			auto& vlist = m.second;
-			for (auto v : vlist) *v = lv[m.first];
-			//}
-		}
-
-		for (auto m : refs) {
-			m->ptr = lv[m->ptr];
-		}
-
-		match.clear();
-		lv.clear();
-		//pushUnused(eden);
-		//sweepRegions.erase(eden);
-		//std::cout << "fas" << '\n';
-		onGC = false;
-
-		finish = clock();
-
-		std::cout << "gc taks " << finish - start << std::endl;
-
+	if ((regions[eden].usedSize + ACTUAL_SIZEOF(size)) >= MAX_REGION_CAPACITY) {
+		startGC();
 		//sweepRegions.clear();
 	}
 
-	auto v = reinterpret_cast<AllocObj*>(memoryHanlde + (regions[eden].usedSize));
+	auto v = reinterpret_cast<AllocObj*>(regions[eden].memory + (regions[eden].usedSize));
 	v->size = ACTUAL_SIZEOF(size);
-	v->state =/* onGC ? EGCState::GRAY : */EGCState::WHITE;
+	v->state = EGCState::WHITE;
 	v->regionID = eden;
 	v->age = 0;
 #ifdef _DEBUG
@@ -336,9 +321,19 @@ void* GarbageCollector::move(AllocObj* tag, int toRegion)
 	memcpy(newAddr, exAddr, size);
 	regions[toRegion].usedSize += size;
 
-	lv.emplace(GET_OBJ(exAddr), GET_OBJ(newAddr));
+	//for (auto m : match) {
+		//if (m.count(GET_OBJ(exAddr))) {
+	auto& vlist = match[GET_OBJ(exAddr)];
+	for (auto v : vlist) *v = GET_OBJ(newAddr);
 
-	std::cout << "aged " <<  (int)(((AllocObj*)newAddr)->age) << '\n';
+	auto& refList = referenceMatch[GET_OBJ(exAddr)];
+	for (auto v : refList) v->ptr = GET_OBJ(newAddr);
+		//}
+	//}
+	
+	//lv.emplace(GET_OBJ(exAddr), GET_OBJ(newAddr));
+
+	//std::cout << "aged " <<  (int)(((AllocObj*)newAddr)->age) << '\n';
 
 	return newAddr;
 }
