@@ -23,19 +23,22 @@ class MethodReflector {
 public:
 	void* ptr;
 	size_t hash;
-	std::vector<size_t> parameters;
+	//std::vector<size_t> parameters;
 
 	template<typename R, typename... TARGS>
 	MethodReflector(R(*func)(TARGS...)) {
 		ptr = reinterpret_cast<void*>(func);
 		hash = typeid(func).hash_code();
 		//for (int i = 0; i < sizeof...(TARGS...); i++) {
-		parameters = { typeid(TARGS).hash_code()... };
+		//parameters = { typeid(TARGS).hash_code()... };
 
 		/*size_t x[] = { typeid(TARGS).hash_code()... };
 		parameters = x;
 		parameters = (size_t*)malloc(sizeof(x));
 		memcpy(parameters, x, sizeof(x));*/
+	}
+	~MethodReflector() {
+
 	}
 };
 

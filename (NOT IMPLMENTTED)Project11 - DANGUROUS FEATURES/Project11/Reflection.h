@@ -5,7 +5,7 @@
 void* type::operator new(size_t size) { \
 	void* obj = reinterpret_cast<type*>(GarbageCollector::get()->Allocate(size)); \
 	GET_TAG(obj)->reflector = &type::reflect; \
-	GET_TAG(obj)->forwardPointer = nullptr; \
+	GET_TAG(obj)->forwardPointer = obj; \
 	return obj; \
 } \
 void type::initTypeDescriptor(ObjectReflector* _desc) { \

@@ -5,6 +5,7 @@
 #include <unordered_set>
 #include <atomic>
 #include <mutex>
+#include <cassert>
 #define MAX_OBJECT_SIZE 25600000
 #define MAX_REGION_CAPACITY (MAX_OBJECT_SIZE / 20)
 #define GC_OBJECT_SIZE (MAX_OBJECT_SIZE - 800)
@@ -87,6 +88,7 @@ public:
 	char* memory;
 	int usedSize;
 	int age;
+	bool isFull;
 	//void** liveNodes;
 	AtomicArray<void*> liveNodes = AtomicArray<void*>(20);
 
@@ -115,8 +117,9 @@ private:
 	struct SweepData {
 		int fromRegion;
 		int toRegion;
-		SweepData(int from, int to) : fromRegion(from), toRegion(to)  {
-
+		int liveIndex;
+		SweepData(int from, int to) : fromRegion(from), toRegion(to), liveIndex(0)  {
+			
 		}
 	};
 	/// WARNING: DON'T USE THIS FOR ALLOCATING MEMORY 
@@ -130,6 +133,7 @@ public:/*
 	
 	// WARNING: NEVER USE THIS FOR SEARCHING NON-ALLOCATED REGIONS USE 'popUnused()' instead
 	std::deque<int> unusedRegions;
+	std::deque<int> liveRegions;
 	//std::deque<int> markedRegions;
 	//size_t allocatedMemory = 0;
 	//std::unordered_map<int, void**> liveNodes;
@@ -147,7 +151,6 @@ public:/*
 	std::unordered_map<void*, std::vector<GCPointer*>> referenceMatch;
 
 
-	std::deque<int> youngRegions;
 	std::unordered_set<int> sweepRegions;
 	std::list<GCPointer*> refs;
 	//std::deque<GCPointer*> gray;
@@ -173,6 +176,7 @@ public:/*
 	void pushUnused(int region);
 	void mainMark();
 	int popUnused();
+	int popLiveOrUnused();
 
 
 	void* Allocate(size_t size);
@@ -230,10 +234,10 @@ public:
 	}
 
 	inline T* operator->() {
-		if (GET_TAG(ptr)->forwardPointer != nullptr) {
-			ptr = GET_TAG(ptr)->forwardPointer;
-			GET_TAG(ptr)->forwardPointer = nullptr;
-		}
+#ifdef _DEBUG
+		if (!ptr) assert("nullptr referenced");
+#endif
+		ptr = GET_TAG(ptr)->forwardPointer;
 		return reinterpret_cast<T*>(ptr);
 	}
 };

@@ -64,7 +64,6 @@ public:
 		TypeManager::get()->objectReflections.emplace(std::make_pair(name, this));
 
 	}
-
 	/*static void registerObject(std::string name, ObjectReflector* refl) {
 		objectReflections.insert(std::make_pair(name, refl));
 	}*/

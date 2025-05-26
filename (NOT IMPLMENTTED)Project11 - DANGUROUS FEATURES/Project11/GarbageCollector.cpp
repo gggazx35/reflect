@@ -27,6 +27,8 @@ GarbageCollector::GarbageCollector()
 void GarbageCollector::mark() {
 	//pushUnused(eden);
 	//youngRegions.push_;back(eden);
+
+	eden = popUnused();
 	std::cout << "FFAS\n";
 	for (auto ref : refs) {
 		if (ref->ptr) {
@@ -57,9 +59,9 @@ void GarbageCollector::markRef(GCPointer* _this, std::mutex& m) {
 				gray.append(val);
 			}
 			//if (match.count(val) == 0) 
-			m.lock();
+			/*m.lock();
 			referenceMatch[val->get()].push_back(val);
-			m.unlock();
+			m.unlock();*/
 		}
 	}
 	m.lock();
@@ -125,7 +127,6 @@ void GarbageCollector::startGC()
 	//double duration;
 
 	start = clock();
-	eden = popUnused();
 	do {
 
 		if (onGC == false) {
@@ -151,10 +152,13 @@ void GarbageCollector::startGC()
 void GarbageCollector::pushUnused(int region)
 {
 	sweepRegions.erase(region);
-	unusedRegions.push_back(region);
+	if(regions[region].liveNodes.empty())
+		unusedRegions.push_front(region);
+	else
+		unusedRegions.push_back(region);
 	regions[region].age = 0;
 	regions[region].usedSize = 0;
-	regions[region].liveNodes.reset();
+	//regions[region].liveNodes.reset();
 }
 
 void GarbageCollector::mainMark()
@@ -187,6 +191,15 @@ int GarbageCollector::popUnused()
 	return re;
 }
 
+int GarbageCollector::popLiveOrUnused()
+{
+	if (!liveRegions.empty()) {
+		int region = liveRegions.front();
+		return region;
+	}
+	return popUnused();
+}
+
 void GarbageCollector::compactRef(void* _this) {
 	//auto refs = GET_REFLECTOR(_this);
 	//for (auto ref : refs->pointers) {
@@ -201,8 +214,12 @@ void GarbageCollector::compactRef(void* _this) {
 }
 void GarbageCollector::sweep2(SweepData& data) {
 	AtomicArray<void*>& liveList = regions[data.fromRegion].liveNodes;
+	
 	int i = regions[data.fromRegion].liveNodes.getSize();
 	int age = regions[data.fromRegion].age;
+
+	if (data.liveIndex != 0)
+		i = data.liveIndex;
 	i--;
 	while (i >= 0) {
 		void* ref = liveList[i];
@@ -213,7 +230,10 @@ void GarbageCollector::sweep2(SweepData& data) {
 #endif
 
 			obj->state = EGCState::WHITE;
-			move(obj, data.toRegion);
+			if (!move(obj, data.toRegion)) {
+				data.liveIndex = i;
+				return;
+			}
 
 			//live.push_back(ref);
 
@@ -241,7 +261,7 @@ void GarbageCollector::sweep2(SweepData& data) {
 	//	//std::cout << "region id: " << data.toRegion << " has been freed\n";
 	//}
 
-	
+	data.liveIndex = 0;
 	regions[data.fromRegion].liveNodes.reset();
 }
 
@@ -261,9 +281,9 @@ void GarbageCollector::sweep() {
 			//youngRegions.pop_front();
 			//SweepData* ptr = region;
 			//region.toRegion = 2000;
-
+			region.toRegion = popLiveOrUnused();
 			threads.EnqueueJob([this, &region]() {
-				region.toRegion = popUnused();
+				//region.toRegion = toRegion;
 				this->sweep2(region);
 				});
 			//sweep2(region, popUnused());
@@ -276,11 +296,13 @@ void GarbageCollector::sweep() {
 		pushUnused(region.fromRegion);
 		if(regions[region.toRegion].usedSize <= 0)
 			pushUnused(region.toRegion);
-		else {
+		else if(region.liveIndex != 0) {
+			liveRegions.pop_front();
+		} else {
 			//isFailure = true;
 			//sweepRegions.erase(region.toRegion);
+			liveRegions.push_back(region.toRegion);
 			std::cout << "region id: " << regions[region.toRegion].usedSize << " live\n";
-			if (regions[region.toRegion].age > 10) abort();
 		}
 	}
 
@@ -324,31 +346,21 @@ void* GarbageCollector::move(AllocObj* tag, int toRegion)
 {
 
 	unsigned int size = tag->size;
+	
+	
+	if ((regions[toRegion].usedSize + size) >= MAX_REGION_CAPACITY)
+		regions[toRegion].isFull = true;
+
 	tag->regionID = toRegion;
 	tag->age++;
-	
+
 	void* exAddr = tag;
 	void* newAddr = currentRegionAddress(toRegion);
 
-
-	if (referenceMatch.count(GET_OBJ(exAddr))) {
-		auto& refList = referenceMatch[GET_OBJ(exAddr)];
-		for (auto v : refList) v->ptr = GET_OBJ(newAddr);
-	}
 	memcpy(newAddr, exAddr, size);
 	regions[toRegion].usedSize += size;
 
+	reinterpret_cast<AllocObj*>(newAddr)->forwardPointer = GET_OBJ(newAddr);
 	tag->forwardPointer = GET_OBJ(newAddr);
-
-	//for (auto m : match) {
-		//if (m.count(GET_OBJ(exAddr))) {
-	
-		//}
-	//}
-	
-	//lv.emplace(GET_OBJ(exAddr), GET_OBJ(newAddr));
-
-	//std::cout << "aged " <<  (int)(((AllocObj*)newAddr)->age) << '\n';
-
 	return newAddr;
 }
