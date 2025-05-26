@@ -84,7 +84,7 @@ public:
 	void registerProperty(std::string str, int offset) {
 		auto prop = new PropertyReflector(offset);
 		
-		if constexpr (std::is_base_of_v<GCPointer, T> == true) {
+		if constexpr (std::is_pointer_v<T> == true) {
 			pointers.push_back(prop);
 		}
 

@@ -3,6 +3,8 @@
 #include <deque>
 #include <array>
 #include <unordered_set>
+#include <atomic>
+#include <mutex>
 #define MAX_OBJECT_SIZE 25600000
 #define MAX_REGION_CAPACITY (MAX_OBJECT_SIZE / 20)
 #define GC_OBJECT_SIZE (MAX_OBJECT_SIZE - 800)
@@ -57,7 +59,14 @@ public:
 	int usedSize;
 	int age;
 	//void** liveNodes;
-	std::vector<void*> liveNodes;
+	void** liveNodes;
+	std::atomic<int> liveNodeSize;
+
+	inline void pushLive(void* _live) {
+		liveNodes[liveNodeSize.load()] = _live;
+		liveNodeSize.fetch_add(1);
+	}
+
 	//std::vector<void*> grayNodes;
 	//bool unused;
 	////Region(char* _mem) : memory(_mem), usedSize(0) {
@@ -106,7 +115,7 @@ public:/*
 	
 
 	// INFO: this re-matching allocated objects from old address to new address only uses while compacting memory
-	std::unordered_map<void*, std::list<void**>> match;
+	std::unordered_map<void*, std::vector<void**>> match;
 	// INFO: this re-matching allocated objects in reference list from old address to new address only uses while compacting memory
 	std::unordered_map<void*, std::vector<GCPointer*>> referenceMatch;
 
@@ -124,13 +133,13 @@ public:/*
 	bool onGC = false;
 	bool onMarking = false;
 	void mark();
-	void markRef(void* _this);
-	void compactRef(void* _this);
+	void markRef(void* _this, std::mutex& m);
+	//void compactRef(void* _this);
 	void sweep();
 	void compact();
 	void sweep2(SweepData& data);
 	void grayOut();
-	void registerGray(void* val);
+	void registerGray(GCPointer* val);
 
 	void startGC();
 
@@ -148,7 +157,7 @@ public:/*
 
 	inline void pushLive(void* live) {
 		int rid = GET_TAG(live)->regionID;
-		regions[rid].liveNodes.push_back(live);
+		regions[rid].pushLive(live);
 		/*if (!sweepRegions.count(rid)) {
 			sweepRegions.emplace(rid);
 			youngRegions.push_back(rid);
@@ -163,37 +172,43 @@ public:/*
 		return &instance;
 	}
 };
+//
+//template<typename T>
+//class GCMember : public GCPointer {
+//public:
+//	GCMember<T>() {
+//		ptr = nullptr;
+//	}
+//
+//	//inline GCMember<T>& operator=(const GCMember<T>& other) {
+//	//	ptr = reinterpret_cast<void*>(other);
+//	//	if (GarbageCollector::get()->onMarking) {
+//	//		if (!remark) {
+//	//			GarbageCollector::get()->registerGray(this);
+//	//			std::cout << static_cast<int>(GET_TAG(this->get())->state) << '\n';
+//	//		}
+//	//	}
+//	//	return *this;
+//	//}
+//
+//	//inline GCMember<T>& operator=(T* other) {
+//	//	ptr = reinterpret_cast<void*>(other);
+//	//	if (GarbageCollector::get()->onMarking) {
+//	//		if (!remark) {
+//	//			GarbageCollector::get()->registerGray(this);
+//	//			std::cout << static_cast<int>(GET_TAG(this->get())->state) << '\n';
+//	//		}
+//	//	}
+//	//	return *this;
+//	//}
+//
+//	inline T* operator->() {
+//		return reinterpret_cast<T*>(ptr);
+//	}
+//};
 
 template<typename T>
-class GCMember : public GCPointer {
-public:
-	GCMember<T>() {
-		ptr = nullptr;
-	}
-
-	inline GCMember<T>& operator=(const GCMember<T>& other) {
-		ptr = other.ptr;
-		if (GarbageCollector::get()->onMarking) {
-			GarbageCollector::get()->registerGray(ptr);
-		}
-		return *this;
-	}
-
-	inline GCMember<T>& operator=(T* other) {
-		ptr = reinterpret_cast<void*>(other);
-		if (GarbageCollector::get()->onMarking) {
-			GarbageCollector::get()->registerGray(ptr);
-		}
-		return *this;
-	}
-
-	inline T* operator->() {
-		return reinterpret_cast<T*>(ptr);
-	}
-};
-
-template<typename T>
-class GCPtr : public GCMember<T> {
+class GCPtr : public GCPointer {
 public:
 	GCPtr<T>(T* _ptr) {
 		this->ptr = reinterpret_cast<void*>(_ptr);
@@ -202,6 +217,9 @@ public:
 
 	~GCPtr<T>() {
 		GarbageCollector::get()->refs.remove(this);
+	}
+	inline T* operator->() {
+		return reinterpret_cast<T*>(ptr);
 	}
 };
 

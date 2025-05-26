@@ -491,9 +491,9 @@ class GCObjectable : public GCObject {
 public:
 	using super = GCObject;
 public:
-	GCMember<GCObject> buddy;
-	GCMember<GCObject> buddy2;
-	GCMember<GCObjectable> dude;
+	GCObject* buddy;
+	GCObject* buddy2;
+	GCObjectable* dude;
 
 	REFLECT
 };
@@ -663,28 +663,6 @@ int main() {
 	auto pro = GCPtr<TestClass>(new TestClass());
 	pro->truea = 20;
 	finish = clock();
-	//std::cout << reinterpret_cast<> gcob.ptr
-
-	//auto proper = GET_REFLECTOR(gco.ptr)->properties["buddy"]->As<void*>(gco.ptr);
-	//*proper = gco->buddy2;
-
-	//std::cout << "finish taks " << ((void*)gco->buddy == (void*)gco->buddy2) << std::endl;
-
-	//duration = (double)(finish - start);
-	//std::cout << "\n\n-------------\n" << (finish - start) << "secs with " << currentKill << std::endl;
-
-	//poss::register_Reflect();
-
-	/*call<void>(TypeManager::objectReflections["poss"]->methods["overrid"], newPoss, 20);
-	poss* nextLevel = new OKDobule();
-	std::cout << isCastable(nextLevel, TypeManager::objectReflections["OKDobule"]) << '\n';
-	
-	if (isCastable(nextLevel, TypeManager::objectReflections["OKDobule"])) {
-		auto z = cast<OKDobule>(nextLevel);
-		z->overrid(20);
-		auto f = TypeManager::objectReflections["OKDobule"]->methods["zep"];
-		call<void>(TypeManager::objectReflections["OKDobule"]->methods["zep"], z, 300, (OK*)nullptr);
-	}*/
 	
 	std::cout << TypeResolver<poss>::get()->name << '\n';
 	std::cout << TypeResolver<OK>::get()->isChildOf(TypeResolver<poss>::get()) << '\n';
