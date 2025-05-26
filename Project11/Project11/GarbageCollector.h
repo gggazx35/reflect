@@ -44,9 +44,11 @@ class SweepCell {
 
 
 
-class GCPointer {
-public:
-	void* ptr;
+
+template<typename T>
+class QPtr {
+	T* ptr;
+
 };
 
 class Region {
@@ -128,7 +130,7 @@ public:/*
 	void compact();
 	void sweep2(SweepData& data);
 	void grayOut();
-	void registerGray(void* val, std::deque<void*>& gray);
+	void registerGray(void* val);
 
 	void startGC();
 
@@ -163,17 +165,43 @@ public:/*
 };
 
 template<typename T>
-class GCPtr : public GCPointer {
+class GCMember : public GCPointer {
+public:
+	GCMember<T>() {
+		ptr = nullptr;
+	}
+
+	inline GCMember<T>& operator=(const GCMember<T>& other) {
+		ptr = other.ptr;
+		if (GarbageCollector::get()->onMarking) {
+			GarbageCollector::get()->registerGray(ptr);
+		}
+		return *this;
+	}
+
+	inline GCMember<T>& operator=(T* other) {
+		ptr = reinterpret_cast<void*>(other);
+		if (GarbageCollector::get()->onMarking) {
+			GarbageCollector::get()->registerGray(ptr);
+		}
+		return *this;
+	}
+
+	inline T* operator->() {
+		return reinterpret_cast<T*>(ptr);
+	}
+};
+
+template<typename T>
+class GCPtr : public GCMember<T> {
 public:
 	GCPtr<T>(T* _ptr) {
-		ptr = _ptr;
+		this->ptr = reinterpret_cast<void*>(_ptr);
 		GarbageCollector::get()->refs.push_back(this);
 	}
 
 	~GCPtr<T>() {
 		GarbageCollector::get()->refs.remove(this);
 	}
-	T* operator->() {
-		return reinterpret_cast<T*>(ptr);
-	}
 };
+

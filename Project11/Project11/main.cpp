@@ -491,9 +491,9 @@ class GCObjectable : public GCObject {
 public:
 	using super = GCObject;
 public:
-	GCObject* buddy;
-	GCObject* buddy2;
-	GCObjectable* dude;
+	GCMember<GCObject> buddy;
+	GCMember<GCObject> buddy2;
+	GCMember<GCObjectable> dude;
 
 	REFLECT
 };
@@ -665,10 +665,10 @@ int main() {
 	finish = clock();
 	//std::cout << reinterpret_cast<> gcob.ptr
 
-	auto proper = GET_REFLECTOR(gco.ptr)->properties["buddy"]->As<void*>(gco.ptr);
-	*proper = gco->buddy2;
+	//auto proper = GET_REFLECTOR(gco.ptr)->properties["buddy"]->As<void*>(gco.ptr);
+	//*proper = gco->buddy2;
 
-	std::cout << "finish taks " << ((void*)gco->buddy == (void*)gco->buddy2) << std::endl;
+	//std::cout << "finish taks " << ((void*)gco->buddy == (void*)gco->buddy2) << std::endl;
 
 	//duration = (double)(finish - start);
 	//std::cout << "\n\n-------------\n" << (finish - start) << "secs with " << currentKill << std::endl;

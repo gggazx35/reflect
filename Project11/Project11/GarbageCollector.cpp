@@ -30,7 +30,7 @@ void GarbageCollector::mark() {
 	std::cout << "FFAS\n";
 	for (auto ref : refs) {
 		if (ref->ptr) {
-			registerGray(ref->ptr, gray);
+			registerGray(ref->ptr);
 			//match[ref->ptr].push_back(&ref->ptr);
 			referenceMatch[ref->ptr].push_back(ref);
 		}
@@ -39,12 +39,9 @@ void GarbageCollector::mark() {
 }
 
 void GarbageCollector::markRef(void* _this) {
-	if (!_this) return;
 	GET_TAG(_this)->state = EGCState::BLACK;
 	auto refs = GET_REFLECTOR(_this);
 
-	//match.insert(std::make_pair(_this, nullptr));
-	if (!refs) return;
 	auto pointers = refs->pointers;
 	for (auto ref : pointers) {
 		void* val = *ref->As<void*>(_this);
@@ -83,14 +80,23 @@ void GarbageCollector::compact() {
 
 void GarbageCollector::grayOut()
 {
+	//int graySize = _graySize;
 	//auto i = gray.size();{
 	//onMarking = true;
 	{
 		ThreadPool threads(4);
-		for (auto i : gray) {
-			threads.EnqueueJob([this, i]() { this->markRef(i); });
-			//gray.pop_front();
-		}
+		int graySize = 0;
+		do {
+			graySize = gray.size();
+			for (int i = 0; i < graySize; i++) {
+				void* curr = gray[i];
+				if(GET_TAG(curr)->state == EGCState::GRAY)
+					threads.EnqueueJob([this, curr]() { this->markRef(curr); });
+				//gray.pop_front();
+			}
+			if (graySize < gray.size())
+				continue;
+		} while (0);
 		printf("im not\n");
 	}
 	gray.clear();
@@ -99,7 +105,7 @@ void GarbageCollector::grayOut()
 	//gray.clear();
 }
 
-void GarbageCollector::registerGray(void* val, std::deque<void*>& gray)
+void GarbageCollector::registerGray(void* val)
 {
 	EGCState state = GET_TAG(val)->state;
 	int region = GET_TAG(val)->regionID;
@@ -242,7 +248,8 @@ void GarbageCollector::sweep() {
 	{
 		//int sweepSize = sweepRegions.size();
 		for (auto region : sweepRegions) {
-			dec.push_back(SweepData(region, -1));
+			if(region != eden)
+				dec.push_back(SweepData(region, -1));
 		}
 		ThreadPool threads(4);
 		for (auto& region : dec) {

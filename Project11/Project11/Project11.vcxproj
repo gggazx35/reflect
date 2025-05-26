@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClInclude Include="DeriveTest.h" />
     <ClInclude Include="GarbageCollector.h" />
+    <ClInclude Include="GCPointer.h" />
     <ClInclude Include="MethodReflector.h" />
     <ClInclude Include="ObjectReflector.h" />
     <ClInclude Include="PropertyReflector.h" />

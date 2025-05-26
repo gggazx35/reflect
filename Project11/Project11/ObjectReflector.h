@@ -4,6 +4,7 @@
 #include <tuple>
 #include "MethodReflector.h"
 #include "PropertyReflector.h"
+#include "GCPointer.h"
 #include <iostream>
 #define BIT(x) (1 << x)
 
@@ -82,9 +83,11 @@ public:
 	template<typename T>
 	void registerProperty(std::string str, int offset) {
 		auto prop = new PropertyReflector(offset);
-		if constexpr (std::is_pointer_v<T> == true) {
+		
+		if constexpr (std::is_base_of_v<GCPointer, T> == true) {
 			pointers.push_back(prop);
 		}
+
 		properties.insert(std::make_pair(str, prop));
 	}
 
